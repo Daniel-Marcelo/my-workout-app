@@ -4,6 +4,8 @@ import { Timeline } from "primereact/timeline";
 import { FlexBox } from "../../components/FlexBox";
 import { useState } from "react";
 
+import { Fab } from "../../components/Fab";
+
 export const DashboardPage = () => {
   const [expanded, setExpanded] = useState(false);
   const events = [
@@ -99,6 +101,7 @@ export const DashboardPage = () => {
 
   return (
     <>
+      <Fab />
       <div style={{ padding: "3rem" }}>
         <FlexBox
           className="routine-workout"
