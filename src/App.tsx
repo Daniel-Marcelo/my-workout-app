@@ -8,6 +8,7 @@ import { LoginPage } from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
 import { DashboardPage } from "./pages/Dashboard";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated/RedirectIfAuthenticated";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,14 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <PrimeReactProvider>
           <Routes>
-            <Route path="/dashboard" Component={DashboardPage} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/login"
               element={
