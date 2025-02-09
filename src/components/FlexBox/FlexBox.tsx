@@ -17,6 +17,8 @@ interface FlexBoxProps {
   shrink?: number;
   basis?: string | number;
   style?: CSSProperties;
+  onClick?: () => void;
+  className?: string;
 }
 // FlexBox component definition
 export const FlexBox = ({

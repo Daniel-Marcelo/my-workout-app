@@ -25,3 +25,14 @@ body {
 #password .p-icon-field {
   width: 100%;
 }
+
+.routine-workout:hover {
+  background-color: var(--primary-900);
+}
+
+.routine-workout {
+  transition: background-color 0.3s;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: var(--primary-800);
+}
