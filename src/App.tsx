@@ -1,14 +1,13 @@
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { PrimeReactProvider } from "primereact/api";
 import { SignUpPage } from "./pages/SignUp";
-import "primereact/resources/themes/lara-dark-cyan/theme.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LoginPage } from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
 import { DashboardPage } from "./pages/Dashboard";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated/RedirectIfAuthenticated";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import "./App.css";
 
 const queryClient = new QueryClient();
 
