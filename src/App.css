@@ -1,5 +1,15 @@
 @import url("primereact/resources/themes/lara-dark-cyan/theme.css"); /* Theme you are using */
 @import url("primereact/resources/primereact.min.css");
+@import url("primeicons/primeicons.css");
+
+body {
+  margin: 0;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

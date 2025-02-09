@@ -1,16 +1,13 @@
-import { useRef } from "react";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { FlexBox } from "../../components/FlexBox";
-import { Toast } from "primereact/toast";
 import { useCreateUserWithEmailAndPassword } from "../../hooks/mutations/useCreateUserWithEmailAndPassword";
 import { useSignUpForm } from "./useSignUpForm";
 
 export const SignUpPage = () => {
-  const toast = useRef<Toast | null>(null);
-  const createUser = useCreateUserWithEmailAndPassword(toast.current);
+  const createUser = useCreateUserWithEmailAndPassword();
 
   const { form, formErrors, emailControl, passwordControl } = useSignUpForm();
 
@@ -18,7 +15,6 @@ export const SignUpPage = () => {
 
   return (
     <FlexBox justify="center" align="center" style={{ minHeight: "100vh" }}>
-      <Toast ref={toast} />
       <form
         onSubmit={(e) => {
           e.preventDefault();

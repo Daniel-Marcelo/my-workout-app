@@ -1,12 +1,12 @@
-import { signOut } from "firebase/auth";
-import { Button } from "primereact/button";
-import { auth } from "../../firebase";
+import { startOfToday } from "date-fns/startOfToday";
+import { format } from "date-fns/format";
 
 export const DashboardPage = () => {
   return (
-    <div>
-      Dashboard
-      <Button onClick={() => signOut(auth)}>Logout</Button>
-    </div>
+    <>
+      <div>
+        <div>{format(startOfToday(), "EEE dd MMM yyyy")}</div>
+      </div>
+    </>
   );
 };
