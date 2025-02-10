@@ -2,9 +2,13 @@ import { SpeedDial } from "primereact/speeddial";
 import { useState } from "react";
 import { MenuItem } from "primereact/menuitem";
 import { Menu } from "primereact/menu";
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../../const/routes";
 
 export const Fab = () => {
   const [fabOpen, setFabOpen] = useState(false);
+  const navigate = useNavigate();
+
   const items: MenuItem[] = [
     {
       label: "Create Routine Template",
@@ -20,6 +24,7 @@ export const Fab = () => {
       label: "Create Exercise",
       icon: " pi pi-file",
       style: { fontSize: ".75rem" },
+      command: () => navigate(AppRoutes.AddExercise),
     },
   ];
 
