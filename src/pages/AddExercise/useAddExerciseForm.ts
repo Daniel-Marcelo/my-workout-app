@@ -1,6 +1,5 @@
 import { useController, useForm } from "react-hook-form";
 import { CreateExerciseForm } from "../../types/Workout";
-import { AutoCompleteCompleteEvent } from "primereact/autocomplete";
 import { muscleGroupOptions } from "../../const/workout";
 import { useState } from "react";
 
@@ -10,6 +9,7 @@ export const useAddExerciseForm = () => {
       name: "",
       muscleGroups: [],
       unilateral: false,
+      equipment: { name: "Freeweight", code: "freeweight" },
     },
   });
 
@@ -34,17 +34,22 @@ export const useAddExerciseForm = () => {
     name: "unilateral",
   });
 
+  const equipmentControl = useController({
+    control: form.control,
+    name: "equipment",
+  });
+
   const [filteredMuscleGroups, setFilteredMuscleGroups] =
     useState(muscleGroupOptions);
 
-  const search = (event: AutoCompleteCompleteEvent) => {
+  const search = (text: string) => {
     let filteredMuscleGroups;
 
-    if (!event.query.trim().length) {
+    if (!text.trim().length) {
       filteredMuscleGroups = [...muscleGroupOptions];
     } else {
       filteredMuscleGroups = muscleGroupOptions.filter((muscle) => {
-        return muscle.code.toLowerCase().startsWith(event.query.toLowerCase());
+        return muscle.code.toLowerCase().startsWith(text.toLowerCase());
       });
     }
 
@@ -55,9 +60,10 @@ export const useAddExerciseForm = () => {
 
   return {
     form,
-    nameControl,
     formErrors,
+    nameControl,
     unilateralControl,
+    equipmentControl,
     muscleGroupsControl: {
       ...muscleGroupsControl,
       filteredMuscleGroups,

@@ -4,12 +4,16 @@ import { Button } from "primereact/button";
 import { AutoComplete } from "primereact/autocomplete";
 import { FlexBox } from "../../components/FlexBox";
 import { InputSwitch } from "primereact/inputswitch";
+import { Dropdown } from "primereact/dropdown";
+import { exerciseTypes } from "../../const/workout";
+import { Divider } from "primereact/divider";
 
 export const AddExercisePage = () => {
   const {
     form,
     nameControl,
     muscleGroupsControl,
+    equipmentControl,
     unilateralControl,
     formErrors,
   } = useAddExerciseForm();
@@ -18,6 +22,8 @@ export const AddExercisePage = () => {
     (data) => console.log(data),
     (er) => console.log(er)
   );
+
+  console.log(muscleGroupsControl.filteredMuscleGroups);
 
   return (
     <div style={{ padding: "3rem" }}>
@@ -34,7 +40,7 @@ export const AddExercisePage = () => {
         <FlexBox
           direction="column"
           gap="1rem"
-          style={{ width: "30%", marginBottom: "1rem" }}
+          style={{ width: "100%", marginBottom: "1rem" }}
         >
           <label htmlFor="name">Name</label>
           <InputText
@@ -49,7 +55,7 @@ export const AddExercisePage = () => {
         <FlexBox
           direction="column"
           gap="1rem"
-          style={{ width: "30%", marginBottom: "1rem" }}
+          style={{ width: "100%", marginBottom: "1rem" }}
         >
           <label htmlFor="name">Muscle Groups</label>
           <AutoComplete
@@ -57,7 +63,8 @@ export const AddExercisePage = () => {
             multiple
             value={muscleGroupsControl.field.value}
             suggestions={muscleGroupsControl.filteredMuscleGroups}
-            completeMethod={muscleGroupsControl.search}
+            completeMethod={(e) => muscleGroupsControl.search(e.query)}
+            onFocus={() => muscleGroupsControl.search("")}
             onChange={muscleGroupsControl.field.onChange}
             pt={{
               container: {
@@ -72,17 +79,35 @@ export const AddExercisePage = () => {
         <FlexBox
           direction="column"
           gap="1rem"
-          style={{ width: "30%", marginBottom: "1rem" }}
+          style={{ width: "100%", marginBottom: "1rem" }}
         >
-          <label htmlFor="switch1">Unilateral</label>
+          <label htmlFor="unilateral">Unilateral</label>
           <InputSwitch
-            inputId="switch1"
+            inputId="unilateral"
             checked={unilateralControl.field.value}
             onChange={unilateralControl.field.onChange}
           />
         </FlexBox>
 
-        <Button label="Submit" />
+        <FlexBox
+          direction="column"
+          gap="1rem"
+          style={{ width: "100%", marginBottom: "1rem" }}
+        >
+          <label htmlFor="equipment">Equipment</label>
+
+          <Dropdown
+            inputId="equipment"
+            optionLabel="name"
+            value={equipmentControl.field.value}
+            onChange={(e) => equipmentControl.field.onChange(e.value)}
+            options={exerciseTypes}
+          />
+        </FlexBox>
+
+        <Divider />
+
+        <Button label="Save" style={{ width: "100%" }} />
       </form>
     </div>
   );

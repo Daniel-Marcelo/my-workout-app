@@ -16,3 +16,14 @@ export const muscleGroupOptions = [
   { name: "Lats", code: "lats" },
   { name: "Deltoids", code: "deltoids" },
 ].sort((a, b) => a.code.localeCompare(b.code));
+
+export const exerciseTypes = [
+  { name: "Cable", code: "cable" },
+  { name: "Freeweight", code: "freeweight" },
+  { name: "Machine", code: "machine" },
+  { name: "Dumbbell", code: "dumbbell" },
+  { name: "Barbell", code: "barbell" },
+  { name: "Bodyweight", code: "bodyweight" },
+  { name: "Kettlebell", code: "kettlebell" },
+  { name: "Resistance Band", code: "resistance-band" },
+].sort((a, b) => a.code.localeCompare(b.code));
