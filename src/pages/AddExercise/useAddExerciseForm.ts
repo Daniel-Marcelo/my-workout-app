@@ -9,6 +9,7 @@ export const useAddExerciseForm = () => {
     defaultValues: {
       name: "",
       muscleGroups: [],
+      unilateral: false,
     },
   });
 
@@ -26,6 +27,11 @@ export const useAddExerciseForm = () => {
     rules: {
       required: true,
     },
+  });
+
+  const unilateralControl = useController({
+    control: form.control,
+    name: "unilateral",
   });
 
   const [filteredMuscleGroups, setFilteredMuscleGroups] =
@@ -51,6 +57,7 @@ export const useAddExerciseForm = () => {
     form,
     nameControl,
     formErrors,
+    unilateralControl,
     muscleGroupsControl: {
       ...muscleGroupsControl,
       filteredMuscleGroups,
