@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { SignUpPage } from "./pages/SignUp";
 import { LoginPage } from "./pages/Login";
 import { DashboardPage } from "./pages/Dashboard";
@@ -43,7 +43,7 @@ function App() {
           </RedirectIfAuthenticated>
         }
       />
-      <Route path="/" element={<div>Base route</div>} />
+      <Route path="/" element={<Navigate to={AppRoutes.Dashboard} />} />
       <Route path="/contact" element={<div>Contact</div>} />
     </Routes>
   );
