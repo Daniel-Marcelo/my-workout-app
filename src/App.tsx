@@ -2,15 +2,17 @@ import { Route, Routes } from "react-router-dom";
 import { SignUpPage } from "./pages/SignUp";
 import { LoginPage } from "./pages/Login";
 import { DashboardPage } from "./pages/Dashboard";
+import { AddExercisePage } from "./pages/AddExercise";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated/RedirectIfAuthenticated";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import "./App.css";
+import { AppRoutes } from "./const/routes";
 
 function App() {
   return (
     <Routes>
       <Route
-        path="/dashboard"
+        path={AppRoutes.Dashboard}
         element={
           <ProtectedRoute>
             <DashboardPage />
@@ -18,7 +20,15 @@ function App() {
         }
       />
       <Route
-        path="/login"
+        path={AppRoutes.AddExercise}
+        element={
+          <ProtectedRoute>
+            <AddExercisePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={AppRoutes.Login}
         element={
           <RedirectIfAuthenticated>
             <LoginPage />
@@ -26,7 +36,7 @@ function App() {
         }
       />
       <Route
-        path="/signUp"
+        path={AppRoutes.SignUp}
         element={
           <RedirectIfAuthenticated>
             <SignUpPage />

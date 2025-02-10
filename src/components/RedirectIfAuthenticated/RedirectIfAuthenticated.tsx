@@ -3,6 +3,7 @@ import React, { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { AppRoutes } from "../../const/routes";
 
 interface RedirectIfAuthenticatedProps {
   children: ReactNode;
@@ -16,7 +17,7 @@ const RedirectIfAuthenticated: React.FC<RedirectIfAuthenticatedProps> = ({
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/dashboard");
+      navigate(AppRoutes.Dashboard);
     }
   }, [user, loading, navigate]);
 

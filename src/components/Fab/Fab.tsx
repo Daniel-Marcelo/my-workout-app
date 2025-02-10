@@ -9,12 +9,17 @@ export const Fab = () => {
     {
       label: "Create Routine Template",
       icon: "pi pi-file-plus",
-      style: { fontSize: ".75rem " },
+      style: { fontSize: ".75rem" },
     },
     {
       label: "Record Workout",
       icon: "pi pi-pen-to-square",
-      style: { fontSize: ".75rem " },
+      style: { fontSize: ".75rem" },
+    },
+    {
+      label: "Create Exercise",
+      icon: " pi pi-file",
+      style: { fontSize: ".75rem" },
     },
   ];
 
