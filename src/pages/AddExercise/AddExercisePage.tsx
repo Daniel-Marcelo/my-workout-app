@@ -7,6 +7,7 @@ import { InputSwitch } from "primereact/inputswitch";
 import { Dropdown } from "primereact/dropdown";
 import { exerciseTypes } from "../../const/workout";
 import { Divider } from "primereact/divider";
+import { useCreateExercise } from "../../hooks/mutations/useCreateExercise";
 
 export const AddExercisePage = () => {
   const {
@@ -18,12 +19,20 @@ export const AddExercisePage = () => {
     formErrors,
   } = useAddExerciseForm();
 
+  const createExercise = useCreateExercise();
+
   const submitForm = form.handleSubmit(
-    (data) => console.log(data),
+    (data) =>
+      createExercise.mutate({
+        exercise: {
+          name: data.name,
+          muscleGroups: data.muscleGroups.map((mg) => mg.code),
+          unilateral: data.unilateral,
+          equipment: data.equipment.code,
+        },
+      }),
     (er) => console.log(er)
   );
-
-  console.log(muscleGroupsControl.filteredMuscleGroups);
 
   return (
     <div style={{ padding: "3rem" }}>
