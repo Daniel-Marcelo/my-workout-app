@@ -3,4 +3,5 @@ export const AppRoutes = {
   Dashboard: "/dashboard",
   Login: "/login",
   SignUp: "/signUp",
+  WorkoutTemplate: "/workout/template",
 };

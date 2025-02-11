@@ -11,9 +11,10 @@ export const Fab = () => {
 
   const items: MenuItem[] = [
     {
-      label: "Create Routine Template",
+      label: "Create Workout Template",
       icon: "pi pi-file-plus",
       style: { fontSize: ".75rem" },
+      command: () => navigate(AppRoutes.WorkoutTemplate),
     },
     {
       label: "Record Workout",

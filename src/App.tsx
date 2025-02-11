@@ -7,6 +7,7 @@ import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated/Redire
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import "./App.css";
 import { AppRoutes } from "./const/routes";
+import { CreateWorkoutTemplatePage } from "./pages/CreateWorkoutTemplate";
 
 function App() {
   return (
@@ -24,6 +25,14 @@ function App() {
         element={
           <ProtectedRoute>
             <AddExercisePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={AppRoutes.WorkoutTemplate}
+        element={
+          <ProtectedRoute>
+            <CreateWorkoutTemplatePage />
           </ProtectedRoute>
         }
       />

@@ -13,3 +13,8 @@ export type Exercise = {
   unilateral: boolean;
   equipment: string;
 };
+
+export type CreateWorkoutTemplateForm = {
+  name: string;
+  muscleGroups: InputOption[];
+};
