@@ -4,7 +4,7 @@ import { AutoComplete } from "primereact/autocomplete";
 import { useCreateWorkoutTemplateForm } from "./useCreateWorkoutTemplateForm";
 
 export const CreateWorkoutTemplatePage = () => {
-  const { formErrors, nameControl, muscleGroupsControl } =
+  const { formErrors, nameControl, muscleGroupsControl, exercisesControl } =
     useCreateWorkoutTemplateForm();
   return (
     <div style={{ padding: "3rem" }}>
@@ -39,8 +39,30 @@ export const CreateWorkoutTemplatePage = () => {
             value={muscleGroupsControl.field.value}
             suggestions={muscleGroupsControl.filteredMuscleGroups}
             completeMethod={(e) => muscleGroupsControl.search(e.query)}
-            onFocus={() => muscleGroupsControl.search("")}
             onChange={muscleGroupsControl.field.onChange}
+            pt={{
+              container: {
+                style: {
+                  width: "100%",
+                },
+              },
+            }}
+          />
+        </FlexBox>
+
+        <FlexBox
+          direction="column"
+          gap="1rem"
+          style={{ width: "100%", marginBottom: "1rem" }}
+        >
+          <label htmlFor="name">Select Exercise</label>
+          <AutoComplete
+            field="name"
+            multiple
+            value={exercisesControl.field.value}
+            suggestions={exercisesControl.filteredExercises}
+            completeMethod={(e) => exercisesControl.search(e.query)}
+            onChange={exercisesControl.field.onChange}
             pt={{
               container: {
                 style: {
