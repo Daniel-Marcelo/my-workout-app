@@ -22,7 +22,7 @@ export const AddExercisePage = () => {
   const createExercise = useCreateExercise();
 
   const submitForm = form.handleSubmit(
-    (data) =>
+    (data) => {
       createExercise.mutate({
         exercise: {
           name: data.name,
@@ -30,7 +30,9 @@ export const AddExercisePage = () => {
           unilateral: data.unilateral,
           equipment: data.equipment.code,
         },
-      }),
+      });
+      form.reset();
+    },
     (er) => console.log(er)
   );
 

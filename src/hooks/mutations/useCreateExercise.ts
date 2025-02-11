@@ -10,6 +10,12 @@ export const useCreateExercise = () => {
   return useMutation({
     mutationFn: ({ exercise }: { exercise: Exercise }) =>
       ExerciseApi.createExercise(user!.uid, exercise),
+    onSuccess: () =>
+      toast.showToast({
+        severity: "success",
+        summary: "Success",
+        detail: "Exercise created",
+      }),
     onError: () =>
       toast.showToast({
         severity: "error",
