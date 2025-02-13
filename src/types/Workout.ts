@@ -7,7 +7,7 @@ export type CreateExerciseForm = {
   equipment: InputOption;
 };
 
-export type Exercise = {
+export type ExerciseTemplate = {
   name: string;
   muscleGroups: string[];
   unilateral: boolean;
@@ -17,7 +17,7 @@ export type Exercise = {
 export type CreateWorkoutTemplateForm = {
   name: string;
   muscleGroups: InputOption[];
-  exercises: Exercise[];
+  exercises: AddExerciseToWorkoutTemplateForm[];
 };
 
 export type SetTemplate = {

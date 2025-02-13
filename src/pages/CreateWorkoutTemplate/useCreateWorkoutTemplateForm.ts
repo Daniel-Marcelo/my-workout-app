@@ -1,5 +1,8 @@
 import { useController, useForm, UseFormReturn } from "react-hook-form";
-import { CreateWorkoutTemplateForm, Exercise } from "../../types/Workout";
+import {
+  CreateWorkoutTemplateForm,
+  ExerciseTemplate,
+} from "../../types/Workout";
 import { muscleGroupOptions } from "../../const/workout";
 import { useState } from "react";
 import { useGetExercises } from "../../hooks/queries/useGetExercises";
@@ -55,11 +58,11 @@ const useExercisesControl = (
   });
 
   const [filteredExercises, setFilteredExercises] = useState<
-    WithId<Exercise>[]
+    WithId<ExerciseTemplate>[]
   >([]);
 
   const search = (text: string) => {
-    let filteredExercises: WithId<Exercise>[];
+    let filteredExercises: WithId<ExerciseTemplate>[];
 
     if (!text.trim().length) {
       filteredExercises = [...exercises];

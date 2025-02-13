@@ -8,15 +8,20 @@ import { Dropdown } from "primereact/dropdown";
 import { intensityOptions, speedOptions } from "../../const/workout";
 import { useAddExerciseToCreateWorkoutTemplateForm } from "./useAddExerciseToCreateWorkoutTemplateForm";
 import { WithId } from "../../types/General";
-import { Exercise } from "../../types/Workout";
+import {
+  AddExerciseToWorkoutTemplateForm,
+  ExerciseTemplate,
+} from "../../types/Workout";
 import { Button } from "primereact/button";
 
 export type AddExerciseToCreateWorkoutTemplateFormProps = {
-  exercise: WithId<Exercise>;
+  exercise: WithId<ExerciseTemplate>;
+  onSaveExercise: (form: AddExerciseToWorkoutTemplateForm) => void;
 };
 
 export const AddExerciseToCreateWorkoutTemplateForm = ({
   exercise,
+  onSaveExercise,
 }: AddExerciseToCreateWorkoutTemplateFormProps) => {
   const {
     form,
@@ -27,8 +32,8 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
   } = useAddExerciseToCreateWorkoutTemplateForm(exercise);
 
   const onSubmit = form.handleSubmit(
-    (d) => {
-      console.log("submitting", d);
+    (formData) => {
+      onSaveExercise(formData);
     },
     (e) => {
       console.log("errors", e);

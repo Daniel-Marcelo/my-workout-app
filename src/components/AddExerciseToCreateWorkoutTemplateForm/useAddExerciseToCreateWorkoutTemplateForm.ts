@@ -2,8 +2,9 @@ import { useController, useForm, UseFormReturn } from "react-hook-form";
 import { InputOption, WithId } from "../../types/General";
 import {
   AddExerciseToWorkoutTemplateForm,
-  Exercise,
+  ExerciseTemplate,
   Intensity,
+  SetTemplate,
   Speed,
 } from "../../types/Workout";
 import { useEffect } from "react";
@@ -69,8 +70,15 @@ const useSetDetailsControl = (
     onChangeSpeedForSet,
   };
 };
+
+const getDefaultSetTemplate = (): SetTemplate => ({
+  reps: 10,
+  intensity: "moderate",
+  speed: "medium",
+});
+
 export const useAddExerciseToCreateWorkoutTemplateForm = (
-  exercise: WithId<Exercise>
+  exercise: WithId<ExerciseTemplate>
 ) => {
   const form = useForm<AddExerciseToWorkoutTemplateForm>({
     defaultValues: {
@@ -81,21 +89,9 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
       notes: "",
       superset: false,
       sets: [
-        {
-          reps: 10,
-          intensity: "moderate",
-          speed: "medium",
-        },
-        {
-          reps: 10,
-          intensity: "moderate",
-          speed: "medium",
-        },
-        {
-          reps: 10,
-          intensity: "moderate",
-          speed: "medium",
-        },
+        getDefaultSetTemplate(),
+        getDefaultSetTemplate(),
+        getDefaultSetTemplate(),
       ],
     },
   });
@@ -120,12 +116,17 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
 
   const setsDetailControl = useSetDetailsControl(form);
   useEffect(() => {
-    // console.log("exercise", exercise);
     form.setValue("name", exercise.name);
     form.setValue("muscleGroups", exercise.muscleGroups);
     form.setValue("equipment", exercise.equipment);
     form.setValue("numberOfSets", 3);
     form.setValue("superset", false);
+    form.setValue("notes", "");
+    form.setValue("sets", [
+      getDefaultSetTemplate(),
+      getDefaultSetTemplate(),
+      getDefaultSetTemplate(),
+    ]);
   }, [exercise, form]);
 
   const formErrors = form.formState.errors;

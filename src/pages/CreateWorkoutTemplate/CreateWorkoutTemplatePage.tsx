@@ -1,26 +1,44 @@
 import { InputText } from "primereact/inputtext";
 import { FlexBox } from "../../components/FlexBox";
-import { AutoComplete, AutoCompleteChangeEvent } from "primereact/autocomplete";
+import { AutoComplete } from "primereact/autocomplete";
 import { useCreateWorkoutTemplateForm } from "./useCreateWorkoutTemplateForm";
 import { Divider } from "primereact/divider";
-import { Exercise } from "../../types/Workout";
+import {
+  AddExerciseToWorkoutTemplateForm,
+  ExerciseTemplate,
+} from "../../types/Workout";
 import { WithId } from "../../types/General";
 import { useState } from "react";
 import { Card } from "primereact/card";
 import { Tag } from "primereact/tag";
 import { exerciseTypes } from "../../const/workout";
 import { AddExerciseToCreateWorkoutTemplateForm } from "../../components/AddExerciseToCreateWorkoutTemplateForm";
+import { FormEvent } from "primereact/ts-helpers";
+import { useToast } from "../../context/ToastContext";
 
 export const CreateWorkoutTemplatePage = () => {
+  const toast = useToast();
   const { formErrors, nameControl, muscleGroupsControl, exercisesControl } =
     useCreateWorkoutTemplateForm();
 
-  const [selectedExercise, setSelectedExercise] = useState<WithId<Exercise>>();
+  const [selectedExercise, setSelectedExercise] =
+    useState<WithId<ExerciseTemplate>>();
 
-  const selectExercise = (event: AutoCompleteChangeEvent) => {
-    const exercise = (event.value as WithId<Exercise>[]).pop();
+  const selectExercise = (event: FormEvent<WithId<ExerciseTemplate>[]>) => {
+    const exercise = event.value?.pop();
     if (!exercise) return;
     setSelectedExercise(exercise);
+  };
+
+  const onSaveExercise = (exercise: AddExerciseToWorkoutTemplateForm) => {
+    const currentExercises = exercisesControl.field.value;
+    const updatedExercises = [...currentExercises, exercise];
+    exercisesControl.field.onChange(updatedExercises);
+    toast.showToast({
+      severity: "success",
+      summary: "Exercise added",
+    });
+    setSelectedExercise(undefined);
   };
 
   return (
@@ -79,7 +97,6 @@ export const CreateWorkoutTemplatePage = () => {
         <AutoComplete
           field="name"
           multiple
-          value={exercisesControl.field.value}
           suggestions={exercisesControl.filteredExercises}
           completeMethod={(e) => exercisesControl.search(e.query)}
           onChange={(e) => selectExercise(e)}
@@ -118,7 +135,10 @@ export const CreateWorkoutTemplatePage = () => {
             )?.name
           }
         >
-          <AddExerciseToCreateWorkoutTemplateForm exercise={selectedExercise} />
+          <AddExerciseToCreateWorkoutTemplateForm
+            exercise={selectedExercise}
+            onSaveExercise={onSaveExercise}
+          />
         </Card>
       )}
     </div>
