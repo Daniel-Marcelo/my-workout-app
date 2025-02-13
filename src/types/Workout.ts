@@ -17,10 +17,11 @@ export type ExerciseTemplate = {
 export type CreateWorkoutTemplateForm = {
   name: string;
   muscleGroups: InputOption[];
-  exercises: AddExerciseToWorkoutTemplateForm[];
+  exercises: ({ tempId: string } & AddExerciseToWorkoutTemplateForm)[];
 };
 
 export type SetTemplate = {
+  setNumber: number;
   reps: number;
   intensity: Intensity;
   speed: Speed;
@@ -36,5 +37,5 @@ export type AddExerciseToWorkoutTemplateForm = {
   sets: SetTemplate[];
 };
 
-export type Speed = "slow" | "medium" | "fast";
-export type Intensity = "light" | "moderate" | "heavy";
+export type Speed = "slow" | "medium" | "fast" | "view-notes";
+export type Intensity = "light" | "moderate" | "heavy" | "view-notes";

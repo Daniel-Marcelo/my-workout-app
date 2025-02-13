@@ -15,11 +15,23 @@ import { exerciseTypes } from "../../const/workout";
 import { AddExerciseToCreateWorkoutTemplateForm } from "../../components/AddExerciseToCreateWorkoutTemplateForm";
 import { FormEvent } from "primereact/ts-helpers";
 import { useToast } from "../../context/ToastContext";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { v4 as uuidv4 } from "uuid";
+import { Button } from "primereact/button";
+import { useCreateWorkoutTemplate } from "../../hooks/mutations/useCreateWorkoutTemplate";
 
 export const CreateWorkoutTemplatePage = () => {
   const toast = useToast();
-  const { formErrors, nameControl, muscleGroupsControl, exercisesControl } =
-    useCreateWorkoutTemplateForm();
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const createWorkoutTemplate = useCreateWorkoutTemplate();
+  const {
+    form,
+    formErrors,
+    nameControl,
+    muscleGroupsControl,
+    exercisesControl,
+  } = useCreateWorkoutTemplateForm();
 
   const [selectedExercise, setSelectedExercise] =
     useState<WithId<ExerciseTemplate>>();
@@ -31,13 +43,24 @@ export const CreateWorkoutTemplatePage = () => {
   };
 
   const onSaveExercise = (exercise: AddExerciseToWorkoutTemplateForm) => {
+    if (!selectedExercise) return;
     const currentExercises = exercisesControl.field.value;
-    const updatedExercises = [...currentExercises, exercise];
+    const newExercise = {
+      tempId: uuidv4(),
+      sourceExerciseId: selectedExercise.id,
+      ...exercise,
+    };
+    const updatedExercises = [...currentExercises, newExercise];
     exercisesControl.field.onChange(updatedExercises);
+    console.log("updatedExercises", updatedExercises);
     toast.showToast({
       severity: "success",
       summary: "Exercise added",
     });
+    setExpanded((prev) => ({
+      ...prev,
+      [newExercise.tempId]: false,
+    }));
     setSelectedExercise(undefined);
   };
 
@@ -71,6 +94,7 @@ export const CreateWorkoutTemplatePage = () => {
           <AutoComplete
             field="name"
             multiple
+            invalid={!!formErrors.muscleGroups?.message}
             value={muscleGroupsControl.field.value}
             suggestions={muscleGroupsControl.filteredMuscleGroups}
             completeMethod={(e) => muscleGroupsControl.search(e.query)}
@@ -85,6 +109,61 @@ export const CreateWorkoutTemplatePage = () => {
           />
         </FlexBox>
       </form>
+      {exercisesControl.field.value && (
+        <FlexBox gap="1rem" direction="column">
+          {exercisesControl.field.value.map((exercise) => (
+            <Card
+              pt={{
+                title: {
+                  style: { marginBottom: 0 },
+                },
+              }}
+              subTitle={expanded[exercise.tempId] ? exercise.notes : ""}
+              title={
+                <div
+                  onClick={() =>
+                    setExpanded((prev) => ({
+                      [exercise.tempId]: !prev[exercise.tempId],
+                    }))
+                  }
+                  style={{
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <FlexBox gap="1rem">
+                    <div>{exercise.name}</div>
+                    {exercise.superset && (
+                      <Tag severity="success">Superset</Tag>
+                    )}
+                  </FlexBox>
+                  <i
+                    className={`pi ${
+                      expanded[exercise.tempId]
+                        ? "pi-chevron-up"
+                        : "pi-chevron-down"
+                    }`}
+                    style={{ fontSize: "1rem" }}
+                  />
+                </div>
+              }
+            >
+              {expanded[exercise.tempId] && (
+                <div>
+                  <DataTable value={exercise.sets}>
+                    <Column field="setNumber" header="Set"></Column>
+                    <Column field="reps" header="Reps"></Column>
+                    <Column field="speed" header="Speed"></Column>
+                    <Column field="intensity" header="Intensity"></Column>
+                  </DataTable>
+                </div>
+              )}
+            </Card>
+          ))}
+        </FlexBox>
+      )}
 
       <Divider />
 
@@ -97,6 +176,7 @@ export const CreateWorkoutTemplatePage = () => {
         <AutoComplete
           field="name"
           multiple
+          invalid={!!formErrors.exercises?.message}
           suggestions={exercisesControl.filteredExercises}
           completeMethod={(e) => exercisesControl.search(e.query)}
           onChange={(e) => selectExercise(e)}
@@ -141,6 +221,16 @@ export const CreateWorkoutTemplatePage = () => {
           />
         </Card>
       )}
+      <div style={{ textAlign: "center" }}>
+        <Button
+          type="submit"
+          onClick={form.handleSubmit((workoutTemplate) => {
+            createWorkoutTemplate.mutate({ workoutTemplate });
+          })}
+        >
+          Save Workout Template
+        </Button>
+      </div>
     </div>
   );
 };

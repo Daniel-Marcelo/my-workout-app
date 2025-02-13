@@ -71,7 +71,8 @@ const useSetDetailsControl = (
   };
 };
 
-const getDefaultSetTemplate = (): SetTemplate => ({
+const getDefaultSetTemplate = (setNumber = 1): SetTemplate => ({
+  setNumber,
   reps: 10,
   intensity: "moderate",
   speed: "medium",
@@ -90,8 +91,8 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
       superset: false,
       sets: [
         getDefaultSetTemplate(),
-        getDefaultSetTemplate(),
-        getDefaultSetTemplate(),
+        getDefaultSetTemplate(2),
+        getDefaultSetTemplate(3),
       ],
     },
   });
@@ -124,8 +125,8 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
     form.setValue("notes", "");
     form.setValue("sets", [
       getDefaultSetTemplate(),
-      getDefaultSetTemplate(),
-      getDefaultSetTemplate(),
+      getDefaultSetTemplate(2),
+      getDefaultSetTemplate(3),
     ]);
   }, [exercise, form]);
 

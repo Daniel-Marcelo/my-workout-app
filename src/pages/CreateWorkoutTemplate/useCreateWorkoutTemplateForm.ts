@@ -15,7 +15,11 @@ const useMuscleGroupsControl = (
     control: form.control,
     name: "muscleGroups",
     rules: {
-      required: true,
+      validate: (data) => {
+        return !data || data?.length === 0
+          ? "Please select muscle group(s)"
+          : true;
+      },
     },
   });
 
@@ -53,7 +57,10 @@ const useExercisesControl = (
     control: form.control,
     name: "exercises",
     rules: {
-      required: true,
+      validate: (data) =>
+        !data || data.length === 0
+          ? "Please select at least one exercise"
+          : true,
     },
   });
 
@@ -95,7 +102,7 @@ export const useCreateWorkoutTemplateForm = () => {
     control: form.control,
     name: "name",
     rules: {
-      required: true,
+      required: "Please enter a name",
     },
   });
 

@@ -35,10 +35,12 @@ export const speedOptions: InputOption<string, Speed>[] = [
   { name: "Slow", code: "slow" },
   { name: "Medium", code: "medium" },
   { name: "Fast", code: "fast" },
+  { name: "View Notes", code: "view-notes" },
 ];
 
 export const intensityOptions: InputOption<string, Intensity>[] = [
   { name: "Light", code: "light" },
   { name: "Moderate", code: "moderate" },
   { name: "Heavy", code: "heavy" },
+  { name: "View Notes", code: "view-notes" },
 ];
