@@ -113,6 +113,12 @@ export const CreateWorkoutTemplatePage = () => {
         <FlexBox gap="1rem" direction="column">
           {exercisesControl.field.value.map((exercise) => (
             <Card
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                setExpanded((prev) => ({
+                  [exercise.tempId]: !prev[exercise.tempId],
+                }))
+              }
               pt={{
                 title: {
                   style: { marginBottom: 0 },
@@ -121,11 +127,6 @@ export const CreateWorkoutTemplatePage = () => {
               subTitle={expanded[exercise.tempId] ? exercise.notes : ""}
               title={
                 <div
-                  onClick={() =>
-                    setExpanded((prev) => ({
-                      [exercise.tempId]: !prev[exercise.tempId],
-                    }))
-                  }
                   style={{
                     cursor: "pointer",
                     display: "flex",
