@@ -1,3 +1,6 @@
+import { InputOption } from "../types/General";
+import { Intensity, Speed } from "../types/Workout";
+
 export const muscleGroupOptions = [
   { name: "Chest", code: "chest" },
   { name: "Back", code: "back" },
@@ -27,3 +30,15 @@ export const exerciseTypes = [
   { name: "Kettlebell", code: "kettlebell" },
   { name: "Resistance Band", code: "resistance-band" },
 ].sort((a, b) => a.code.localeCompare(b.code));
+
+export const speedOptions: InputOption<string, Speed>[] = [
+  { name: "Slow", code: "slow" },
+  { name: "Medium", code: "medium" },
+  { name: "Fast", code: "fast" },
+];
+
+export const intensityOptions: InputOption<string, Intensity>[] = [
+  { name: "Light", code: "light" },
+  { name: "Moderate", code: "moderate" },
+  { name: "Heavy", code: "heavy" },
+];

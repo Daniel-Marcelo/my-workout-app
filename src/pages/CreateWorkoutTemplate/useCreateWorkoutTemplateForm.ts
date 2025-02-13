@@ -46,8 +46,6 @@ const useExercisesControl = (
   const getExercises = useGetExercises();
   const exercises = getExercises.data ?? [];
 
-  console.log(getExercises.data);
-
   const exercisesControl = useController({
     control: form.control,
     name: "exercises",
@@ -86,6 +84,7 @@ export const useCreateWorkoutTemplateForm = () => {
     defaultValues: {
       name: "",
       muscleGroups: [],
+      exercises: [],
     },
   });
 
@@ -98,7 +97,6 @@ export const useCreateWorkoutTemplateForm = () => {
   });
 
   const muscleGroupsControl = useMuscleGroupsControl(form);
-
   const exercisesControl = useExercisesControl(form);
 
   const formErrors = form.formState.errors;
