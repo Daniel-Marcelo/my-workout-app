@@ -222,7 +222,7 @@ export const CreateWorkoutTemplatePage = () => {
           />
         </Card>
       )}
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginTop: "1rem" }}>
         <Button
           type="submit"
           onClick={form.handleSubmit((workoutTemplate) => {
