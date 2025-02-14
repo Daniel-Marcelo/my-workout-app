@@ -9,6 +9,7 @@ import {
 } from "../../types/Workout";
 import { useEffect } from "react";
 import { intensityOptions, speedOptions } from "../../const/workout";
+import { isNil } from "lodash";
 
 const useSetDetailsControl = (
   form: UseFormReturn<AddExerciseToWorkoutTemplateForm>
@@ -18,6 +19,12 @@ const useSetDetailsControl = (
     control: form.control,
     rules: {
       onChange: (e) => console.log(e),
+      validate: (sets) => {
+        return sets.every((set) => {
+          if (!isNil(set.isDropset)) return true;
+          return false;
+        });
+      },
     },
   });
 
@@ -49,11 +56,11 @@ const useSetDetailsControl = (
     intensity: InputOption<string, Intensity>,
     setNumber: number
   ) => {
-    const currentSetDetail = setsDetailControl.field.value;
-    const updatedSetDetail = [...currentSetDetail].map((set, index) =>
+    const currentSets = setsDetailControl.field.value;
+    const updatedSets = [...currentSets].map((set, index) =>
       index === setNumber ? { ...set, intensity: intensity.code } : set
     );
-    setsDetailControl.field.onChange(updatedSetDetail);
+    setsDetailControl.field.onChange(updatedSets);
   };
 
   const getIntensity = (setNumber: number) => {
@@ -61,6 +68,19 @@ const useSetDetailsControl = (
     return intensityOptions.find((option) => option.code === code);
   };
 
+  const onChangeIsDropset = (isDropSet: "no" | "yes", setNumber: number) => {
+    const currentSetsDetail = setsDetailControl.field.value;
+    const updatedSetsDetail = [...currentSetsDetail].map((set, index) =>
+      index === setNumber ? { ...set, isDropset: isDropSet === "yes" } : set
+    );
+    setsDetailControl.field.onChange(updatedSetsDetail);
+  };
+
+  const getIsDropset = (setNumber: number) => {
+    const isDropset = setsDetailControl.field.value[setNumber].isDropset;
+    if (isNil(isDropset)) return null;
+    return isDropset ? "yes" : "no";
+  };
   return {
     ...setsDetailControl,
     onChangeRepsForSet,
@@ -68,6 +88,8 @@ const useSetDetailsControl = (
     onChangeIntensityForSet,
     getIntensity,
     onChangeSpeedForSet,
+    onChangeIsDropset,
+    getIsDropset,
   };
 };
 
@@ -76,6 +98,7 @@ const getDefaultSetTemplate = (setNumber = 1): SetTemplate => ({
   reps: 10,
   intensity: "moderate",
   speed: "medium",
+  isDropset: null,
 });
 
 export const useAddExerciseToCreateWorkoutTemplateForm = (

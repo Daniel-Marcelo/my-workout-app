@@ -13,6 +13,9 @@ import {
   ExerciseTemplate,
 } from "../../types/Workout";
 import { Button } from "primereact/button";
+import { RadioButton } from "primereact/radiobutton";
+import { BinaryOptions } from "../../const/general";
+import { isNil } from "lodash";
 
 export type AddExerciseToCreateWorkoutTemplateFormProps = {
   exercise: WithId<ExerciseTemplate>;
@@ -25,6 +28,7 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
 }: AddExerciseToCreateWorkoutTemplateFormProps) => {
   const {
     form,
+    formErrors,
     numberOfSetsControl,
     supersetControl,
     notesControl,
@@ -97,7 +101,56 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
         {range(0, numberOfSetsControl.field.value).map((count) => (
           <FlexBox key={count} direction="column">
             <Divider />
-            <div style={{ textAlign: "center" }}>Set {count + 1}</div>
+            <div style={{ marginBottom: ".5rem" }}>Set {count + 1}</div>
+
+            <FlexBox
+              gap="1rem"
+              align="center"
+              style={{ marginBottom: "1rem", cursor: "pointer" }}
+            >
+              <label>Dropset?</label>
+              {BinaryOptions.map((option) => (
+                <div
+                  key={`${option.code}-${count}`}
+                  onChange={() =>
+                    setsDetailControl.onChangeIsDropset(option.code, count)
+                  }
+                >
+                  <RadioButton
+                    inputId={`dropset-${count}-${option.code}`}
+                    name={`dropset-${count}-${option.code}`}
+                    value={option.code}
+                    checked={
+                      setsDetailControl.getIsDropset(count) === option.code
+                    }
+                    invalid={
+                      !formErrors.sets
+                        ? false
+                        : isNil(formErrors.sets?.ref?.value[count]?.isDropset)
+                    }
+                  />
+                  <label
+                    style={{
+                      marginLeft: ".5rem",
+                      cursor: "pointer",
+                    }}
+                    htmlFor={`dropset-${count}-${option.code}`}
+                  >
+                    {option.name}
+                  </label>
+                </div>
+              ))}
+            </FlexBox>
+
+            <FlexBox gap="1rem" align="center" style={{ marginBottom: "1rem" }}>
+              <label htmlFor="superset">Superset?</label>
+              <Checkbox
+                name="superset"
+                checked={supersetControl.field.value}
+                value={supersetControl.field.value}
+                onChange={supersetControl.field.onChange}
+              />
+            </FlexBox>
 
             <FlexBox gap="1rem">
               <FlexBox direction="column" gap=".5rem">

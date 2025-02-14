@@ -22,6 +22,7 @@ export type CreateWorkoutTemplateForm = {
 
 export type SetTemplate = {
   setNumber: number;
+  isDropset: boolean | null;
   reps: number;
   intensity: Intensity;
   speed: Speed;
