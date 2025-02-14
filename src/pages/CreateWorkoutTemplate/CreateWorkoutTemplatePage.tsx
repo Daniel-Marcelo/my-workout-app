@@ -15,11 +15,10 @@ import { exerciseTypes } from "../../const/workout";
 import { AddExerciseToCreateWorkoutTemplateForm } from "../../components/AddExerciseToCreateWorkoutTemplateForm";
 import { FormEvent } from "primereact/ts-helpers";
 import { useToast } from "../../context/ToastContext";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "primereact/button";
 import { useCreateWorkoutTemplate } from "../../hooks/mutations/useCreateWorkoutTemplate";
+import { WorkoutTemplateExerciseCard } from "../../components/WorkoutTemplateExerciseCard";
 
 export const CreateWorkoutTemplatePage = () => {
   const toast = useToast();
@@ -112,56 +111,16 @@ export const CreateWorkoutTemplatePage = () => {
       {exercisesControl.field.value && (
         <FlexBox gap="1rem" direction="column">
           {exercisesControl.field.value.map((exercise) => (
-            <Card
-              style={{ cursor: "pointer" }}
-              onClick={() =>
+            <WorkoutTemplateExerciseCard
+              exercise={exercise}
+              expanded={expanded[exercise.tempId]}
+              toggleExpanded={() =>
                 setExpanded((prev) => ({
+                  ...prev,
                   [exercise.tempId]: !prev[exercise.tempId],
                 }))
               }
-              pt={{
-                title: {
-                  style: { marginBottom: 0 },
-                },
-              }}
-              subTitle={expanded[exercise.tempId] ? exercise.notes : ""}
-              title={
-                <div
-                  style={{
-                    cursor: "pointer",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <FlexBox gap="1rem">
-                    <div>{exercise.name}</div>
-                    {exercise.superset && (
-                      <Tag severity="success">Superset</Tag>
-                    )}
-                  </FlexBox>
-                  <i
-                    className={`pi ${
-                      expanded[exercise.tempId]
-                        ? "pi-chevron-up"
-                        : "pi-chevron-down"
-                    }`}
-                    style={{ fontSize: "1rem" }}
-                  />
-                </div>
-              }
-            >
-              {expanded[exercise.tempId] && (
-                <div>
-                  <DataTable value={exercise.sets}>
-                    <Column field="setNumber" header="Set"></Column>
-                    <Column field="reps" header="Reps"></Column>
-                    <Column field="speed" header="Speed"></Column>
-                    <Column field="intensity" header="Intensity"></Column>
-                  </DataTable>
-                </div>
-              )}
-            </Card>
+            />
           ))}
         </FlexBox>
       )}
