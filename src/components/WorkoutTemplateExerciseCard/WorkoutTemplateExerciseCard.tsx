@@ -1,7 +1,7 @@
 import { DataTable } from "primereact/datatable";
 import { FlexBox } from "../FlexBox";
 import { Column } from "primereact/column";
-import { Tag } from "primereact/tag";
+// import { Tag } from "primereact/tag";
 import { Card } from "primereact/card";
 import { AddExerciseToWorkoutTemplateForm } from "../../types/Workout";
 
@@ -37,7 +37,7 @@ export const WorkoutTemplateExerciseCard = ({
         >
           <FlexBox gap="1rem">
             <div>{exercise.name}</div>
-            {exercise.superset && <Tag severity="success">Superset</Tag>}
+            {/* {exercise.superset && <Tag severity="success">Superset</Tag>} */}
           </FlexBox>
           <i
             className={`pi ${expanded ? "pi-chevron-up" : "pi-chevron-down"}`}

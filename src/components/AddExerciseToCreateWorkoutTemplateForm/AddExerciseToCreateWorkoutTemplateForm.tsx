@@ -78,7 +78,7 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
             decrementButtonIcon="pi pi-minus"
           />
         </FlexBox>
-        <FlexBox gap="1rem" align="center" style={{ marginBottom: "1rem" }}>
+        {/* <FlexBox gap="1rem" align="center" style={{ marginBottom: "1rem" }}>
           <label htmlFor="superset">Superset?</label>
           <Checkbox
             name="superset"
@@ -86,7 +86,7 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
             value={supersetControl.field.value}
             onChange={supersetControl.field.onChange}
           />
-        </FlexBox>
+        </FlexBox> */}
       </FlexBox>
       <FlexBox gap="1rem" align="center">
         <label htmlFor={`notes`}>Notes</label>
@@ -141,7 +141,7 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
             </FlexBox>
             {!isNil(setsDetailControl.getIsDropset(count)) && (
               <>
-                <FlexBox
+                {/* <FlexBox
                   gap="1rem"
                   align="center"
                   style={{ marginBottom: "1rem", marginTop: "1rem" }}
@@ -153,9 +153,9 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
                     value={supersetControl.field.value}
                     onChange={supersetControl.field.onChange}
                   />
-                </FlexBox>
+                </FlexBox> */}
 
-                <FlexBox gap="1rem">
+                <FlexBox gap="1rem" style={{ marginTop: "1rem" }}>
                   <FlexBox direction="column" gap=".5rem">
                     <label
                       htmlFor={`reps-${count}`}
