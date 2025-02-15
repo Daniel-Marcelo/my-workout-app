@@ -103,7 +103,12 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
         {range(0, numberOfSetsControl.field.value).map((count) => (
           <FlexBox key={count} direction="column">
             <Divider />
-            <div style={{ marginBottom: ".5rem" }}>Set {count + 1}</div>
+            <div style={{ marginBottom: ".5rem" }}>
+              {setsDetailControl.getIsDropset(count) === "yes"
+                ? "Dropset "
+                : "Set "}
+              {count + 1}
+            </div>
 
             <FlexBox gap="1rem" align="center" style={{ cursor: "pointer" }}>
               <label>Dropset?</label>
