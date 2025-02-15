@@ -132,7 +132,7 @@ export const CreateWorkoutTemplatePage = () => {
         gap="1rem"
         style={{ width: "100%", marginBottom: "1rem", marginTop: "1rem" }}
       >
-        <label htmlFor="name">Select Exercise</label>
+        <label htmlFor="name">Add a Single Exercise</label>
         <AutoComplete
           field="name"
           multiple
