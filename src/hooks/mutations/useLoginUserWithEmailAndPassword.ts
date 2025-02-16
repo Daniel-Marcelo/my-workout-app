@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "../../api/auth";
-import { SignUpForm } from "../../types/SignUp";
 import { useToast } from "../../context/ToastContext";
+import { SignUpForm } from "../../types/SignUp";
 
 export const useLoginUserWithEmailAndPassword = () => {
   const { showToast } = useToast();

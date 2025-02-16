@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useRef } from "react";
 import { Toast, ToastMessage } from "primereact/toast";
-import { ToastSeverity } from "../types/Toast";
 
 // Define the context type
 interface ToastContextType {

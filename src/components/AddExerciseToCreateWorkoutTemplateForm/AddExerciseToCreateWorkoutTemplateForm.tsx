@@ -1,6 +1,5 @@
 import { InputNumber } from "primereact/inputnumber";
 import { FlexBox } from "../FlexBox";
-import { Checkbox } from "primereact/checkbox";
 import { InputText } from "primereact/inputtext";
 import range from "lodash/range";
 import { Divider } from "primereact/divider";
@@ -30,7 +29,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
     form,
     formErrors,
     numberOfSetsControl,
-    supersetControl,
     notesControl,
     setsDetailControl,
   } = useAddExerciseToCreateWorkoutTemplateForm(exercise);
@@ -112,6 +110,17 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
 
             <FlexBox gap="1rem" align="center" style={{ cursor: "pointer" }}>
               <label>Dropset?</label>
+              <Dropdown
+                className="p-inputtext-sm"
+                inputId={`speed-${count}`}
+                optionLabel="name"
+                value={setsDetailControl.getSpeed(count)}
+                onChange={(e) =>
+                  e.value &&
+                  setsDetailControl.onChangeSpeedForSet(e.value, count)
+                }
+                options={speedOptions}
+              />
               {BinaryOptions.map((option) => (
                 <div
                   key={`${option.code}-${count}`}
