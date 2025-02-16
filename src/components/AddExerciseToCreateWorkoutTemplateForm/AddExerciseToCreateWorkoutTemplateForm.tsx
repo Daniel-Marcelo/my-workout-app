@@ -110,17 +110,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
 
             <FlexBox gap="1rem" align="center" style={{ cursor: "pointer" }}>
               <label>Dropset?</label>
-              <Dropdown
-                className="p-inputtext-sm"
-                inputId={`speed-${count}`}
-                optionLabel="name"
-                value={setsDetailControl.getSpeed(count)}
-                onChange={(e) =>
-                  e.value &&
-                  setsDetailControl.onChangeSpeedForSet(e.value, count)
-                }
-                options={speedOptions}
-              />
               {BinaryOptions.map((option) => (
                 <div
                   key={`${option.code}-${count}`}
