@@ -1,5 +1,5 @@
 import { useController, useForm } from "react-hook-form";
-import { SignUpForm } from "../../types/SignUp";
+import { SignUpForm } from "../../types/Register";
 
 export const useSignUpForm = () => {
   const form = useForm<SignUpForm>({
