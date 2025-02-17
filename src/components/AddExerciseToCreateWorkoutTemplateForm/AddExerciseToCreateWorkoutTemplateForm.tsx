@@ -63,7 +63,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
             inputId="sets"
             value={numberOfSetsControl.field.value}
             onValueChange={(e) => numberOfSetsControl.field.onChange(e.value)}
-            showButtons
             buttonLayout="horizontal"
             step={1}
             maxFractionDigits={0}
@@ -72,8 +71,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
             style={{
               height: "38px",
             }}
-            incrementButtonIcon="pi pi-plus"
-            decrementButtonIcon="pi pi-minus"
           />
         </FlexBox>
         {/* <FlexBox gap="1rem" align="center" style={{ marginBottom: "1rem" }}>
@@ -174,7 +171,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
                         e.value &&
                         setsDetailControl.onChangeRepsForSet(e.value, count)
                       }
-                      showButtons
                       buttonLayout="horizontal"
                       step={1}
                       maxFractionDigits={0}
@@ -183,8 +179,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
                       style={{
                         height: "38px",
                       }}
-                      incrementButtonIcon="pi pi-plus"
-                      decrementButtonIcon="pi pi-minus"
                     />
                   </FlexBox>
 
