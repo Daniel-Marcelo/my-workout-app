@@ -1,0 +1,18 @@
+.workout-template-exercise-set-list .swipeable-list-item__content {
+  background-color: var(--surface-card);
+}
+.workout-template-exercise-set-list .swipeable-list-item {
+  cursor: pointer;
+}
+
+.workout-template-exercise-set-list .swipeable-list-item__content {
+  display: block;
+}
+
+.delete-set-workout-template-container {
+  background: var(--red-500);
+  height: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 0.25rem;
+}

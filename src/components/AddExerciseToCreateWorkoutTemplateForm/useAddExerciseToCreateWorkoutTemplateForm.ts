@@ -81,8 +81,27 @@ const useSetDetailsControl = (
     if (isNil(isDropset)) return null;
     return isDropset ? "yes" : "no";
   };
+
+  const onDeleteSet = (setNumber: number) => {
+    const currentSetsDetail = setsDetailControl.field.value;
+    const updatedSetsDetail = currentSetsDetail.filter(
+      (_, index) => index !== setNumber
+    );
+    setsDetailControl.field.onChange(updatedSetsDetail);
+  };
+
+  const onAddSet = () => {
+    const currentSetsDetail = setsDetailControl.field.value;
+    const updatedSetsDetail = [
+      ...currentSetsDetail,
+      getDefaultSetTemplate(currentSetsDetail.length + 1),
+    ];
+    setsDetailControl.field.onChange(updatedSetsDetail);
+  };
   return {
     ...setsDetailControl,
+    onDeleteSet,
+    onAddSet,
     onChangeRepsForSet,
     getSpeed,
     onChangeIntensityForSet,
