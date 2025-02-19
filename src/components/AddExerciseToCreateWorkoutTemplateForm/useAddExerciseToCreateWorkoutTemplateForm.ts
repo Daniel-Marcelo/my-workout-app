@@ -77,7 +77,7 @@ const useSetDetailsControl = (
   };
 
   const getIsDropset = (setNumber: number) => {
-    const isDropset = setsDetailControl.field.value[setNumber].isDropset;
+    const isDropset = setsDetailControl.field.value[setNumber]?.isDropset;
     if (isNil(isDropset)) return null;
     return isDropset ? "yes" : "no";
   };
