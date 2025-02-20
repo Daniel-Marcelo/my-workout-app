@@ -32,7 +32,6 @@ export type AddExerciseToWorkoutTemplateForm = {
   name: string;
   equipment: string;
   muscleGroups: string[];
-  numberOfSets: number;
   superset: boolean;
   notes: string;
   sets: SetTemplate[];
