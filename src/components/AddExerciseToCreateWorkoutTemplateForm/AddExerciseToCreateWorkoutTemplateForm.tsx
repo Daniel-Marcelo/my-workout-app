@@ -32,13 +32,8 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
   exercise,
   onSaveExercise,
 }: AddExerciseToCreateWorkoutTemplateFormProps) => {
-  const {
-    form,
-    formErrors,
-    numberOfSetsControl,
-    notesControl,
-    setsDetailControl,
-  } = useAddExerciseToCreateWorkoutTemplateForm(exercise);
+  const { form, formErrors, notesControl, setsDetailControl } =
+    useAddExerciseToCreateWorkoutTemplateForm(exercise);
 
   const onSubmit = form.handleSubmit(
     (formData) => {
@@ -58,38 +53,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
         onSubmit();
       }}
     >
-      <FlexBox
-        gap="3rem"
-        style={{ width: "100%", marginBottom: "1rem" }}
-        align="center"
-      >
-        <FlexBox gap="1rem" align="center">
-          <label htmlFor="sets">Sets</label>
-          <InputNumber
-            size={1}
-            inputId="sets"
-            value={numberOfSetsControl.field.value}
-            onValueChange={(e) => numberOfSetsControl.field.onChange(e.value)}
-            buttonLayout="horizontal"
-            step={1}
-            maxFractionDigits={0}
-            max={10}
-            min={1}
-            style={{
-              height: "38px",
-            }}
-          />
-        </FlexBox>
-        {/* <FlexBox gap="1rem" align="center" style={{ marginBottom: "1rem" }}>
-          <label htmlFor="superset">Superset?</label>
-          <Checkbox
-            name="superset"
-            checked={supersetControl.field.value}
-            value={supersetControl.field.value}
-            onChange={supersetControl.field.onChange}
-          />
-        </FlexBox> */}
-      </FlexBox>
       <FlexBox gap="1rem" align="center">
         <label htmlFor={`notes`}>Notes</label>
         <InputText

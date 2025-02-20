@@ -128,7 +128,6 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
       name: "",
       muscleGroups: [],
       equipment: "",
-      numberOfSets: 3,
       notes: "",
       superset: false,
       sets: [
@@ -136,14 +135,6 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
         getDefaultSetTemplate(2),
         getDefaultSetTemplate(3),
       ],
-    },
-  });
-
-  const numberOfSetsControl = useController({
-    name: "numberOfSets",
-    control: form.control,
-    rules: {
-      required: true,
     },
   });
 
@@ -162,7 +153,6 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
     form.setValue("name", exercise.name);
     form.setValue("muscleGroups", exercise.muscleGroups);
     form.setValue("equipment", exercise.equipment);
-    form.setValue("numberOfSets", 3);
     form.setValue("superset", false);
     form.setValue("notes", "");
     form.setValue("sets", [
@@ -177,7 +167,6 @@ export const useAddExerciseToCreateWorkoutTemplateForm = (
   return {
     form,
     notesControl,
-    numberOfSetsControl,
     setsDetailControl,
     supersetControl,
     formErrors,
