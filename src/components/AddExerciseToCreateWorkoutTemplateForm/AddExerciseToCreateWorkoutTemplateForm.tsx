@@ -13,8 +13,6 @@ import {
   ExerciseTemplate,
 } from "../../types/Workout";
 import { Button } from "primereact/button";
-import { RadioButton } from "primereact/radiobutton";
-import { BinaryOptions } from "../../const/general";
 import { isNil } from "lodash";
 import {
   SwipeableList,
@@ -23,6 +21,7 @@ import {
 import "@sandstreamdev/react-swipeable-list/dist/styles.css";
 import "./index.css";
 import { Dialog } from "primereact/dialog";
+import { AddExerciseToCreateTemplateDropsetControl } from "../AddExerciseToCreateTemplateDropsetControl/AddExerciseToCreateTemplateDropsetControl";
 
 export type AddExerciseToCreateWorkoutTemplateFormProps = {
   exercise: WithId<ExerciseTemplate>;
@@ -99,82 +98,45 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
               </Button>
             </FlexBox>
           </Dialog>
-          {range(0, setsDetailControl.field.value.length).map((count) => (
-            <React.Fragment>
-              <Divider />
-              <SwipeableListItem
-                threshold={0.25}
-                swipeLeft={{
-                  content: (
-                    <FlexBox
-                      align="center"
-                      className="delete-set-workout-template-container"
-                    >
-                      <div>Delete Set</div>
-                    </FlexBox>
-                  ),
-                  action: () => setSetIndexToDelete(count),
-                }}
-                onSwipeProgress={(progress) =>
-                  console.info(`Swipe progress: ${progress}%`)
-                }
-              >
-                <FlexBox key={count} direction="column">
-                  <div style={{ marginBottom: ".5rem" }}>
-                    {setsDetailControl.getIsDropset(count) === "yes"
-                      ? "Dropset "
-                      : "Set "}
-                    {count + 1}
-                  </div>
-
-                  <FlexBox
-                    gap="1rem"
-                    align="center"
-                    style={{ cursor: "pointer" }}
-                  >
-                    <label>Dropset?</label>
-                    {BinaryOptions.map((option) => (
-                      <div
-                        key={`${option.code}-${count}`}
-                        onChange={() =>
-                          setsDetailControl.onChangeIsDropset(
-                            option.code,
-                            count
-                          )
-                        }
+          {range(0, setsDetailControl.control.field.value.length).map(
+            (setIndex) => (
+              <React.Fragment>
+                <Divider />
+                <SwipeableListItem
+                  threshold={0.25}
+                  swipeLeft={{
+                    content: (
+                      <FlexBox
+                        align="center"
+                        className="delete-set-workout-template-container"
                       >
-                        <RadioButton
-                          inputId={`dropset-${count}-${option.code}`}
-                          name={`dropset-${count}-${option.code}`}
-                          value={option.code}
-                          checked={
-                            setsDetailControl.getIsDropset(count) ===
-                            option.code
-                          }
-                          invalid={
-                            !formErrors.sets
-                              ? false
-                              : isNil(
-                                  setsDetailControl.field.value[count]
-                                    ?.isDropset
-                                )
-                          }
-                        />
-                        <label
-                          style={{
-                            marginLeft: ".5rem",
-                            cursor: "pointer",
-                          }}
-                          htmlFor={`dropset-${count}-${option.code}`}
-                        >
-                          {option.name}
-                        </label>
-                      </div>
-                    ))}
-                  </FlexBox>
-                  {!isNil(setsDetailControl.getIsDropset(count)) && (
-                    <>
-                      {/* <FlexBox
+                        <div>Delete Set</div>
+                      </FlexBox>
+                    ),
+                    action: () => setSetIndexToDelete(setIndex),
+                  }}
+                  onSwipeProgress={(progress) =>
+                    console.info(`Swipe progress: ${progress}%`)
+                  }
+                >
+                  <FlexBox key={setIndex} direction="column">
+                    <div style={{ marginBottom: ".5rem" }}>
+                      {setsDetailControl.getIsDropset(setIndex) === "yes"
+                        ? "Dropset "
+                        : "Set "}
+                      {setIndex + 1}
+                    </div>
+
+                    <AddExerciseToCreateTemplateDropsetControl
+                      setIndex={setIndex}
+                      formErrors={formErrors}
+                      getIsDropset={setsDetailControl.getIsDropset}
+                      onChangeIsDropset={setsDetailControl.onChangeIsDropset}
+                      value={setsDetailControl.control.field.value}
+                    />
+                    {!isNil(setsDetailControl.getIsDropset(setIndex)) && (
+                      <>
+                        {/* <FlexBox
                   gap="1rem"
                   align="center"
                   style={{ marginBottom: "1rem", marginTop: "1rem" }}
@@ -188,88 +150,92 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
                   />
                 </FlexBox> */}
 
-                      <FlexBox gap="1rem" style={{ marginTop: "1rem" }}>
-                        <FlexBox direction="column" gap=".5rem">
-                          <label
-                            htmlFor={`reps-${count}`}
-                            style={{ fontSize: ".75rem" }}
-                          >
-                            Reps
-                          </label>
-                          <InputNumber
-                            size={1}
-                            inputId={`reps-${count}`}
-                            value={setsDetailControl.field.value[count].reps}
-                            onChange={(e) =>
-                              e.value &&
-                              setsDetailControl.onChangeRepsForSet(
-                                e.value,
-                                count
-                              )
-                            }
-                            buttonLayout="horizontal"
-                            step={1}
-                            maxFractionDigits={0}
-                            max={10}
-                            min={1}
-                            style={{
-                              height: "38px",
-                            }}
-                          />
-                        </FlexBox>
+                        <FlexBox gap="1rem" style={{ marginTop: "1rem" }}>
+                          <FlexBox direction="column" gap=".5rem">
+                            <label
+                              htmlFor={`reps-${setIndex}`}
+                              style={{ fontSize: ".75rem" }}
+                            >
+                              Reps
+                            </label>
+                            <InputNumber
+                              size={1}
+                              inputId={`reps-${setIndex}`}
+                              value={
+                                setsDetailControl.control.field.value[setIndex]
+                                  .reps
+                              }
+                              onChange={(e) =>
+                                e.value &&
+                                setsDetailControl.onChangeRepsForSet(
+                                  e.value,
+                                  setIndex
+                                )
+                              }
+                              buttonLayout="horizontal"
+                              step={1}
+                              maxFractionDigits={0}
+                              max={10}
+                              min={1}
+                              style={{
+                                height: "38px",
+                              }}
+                            />
+                          </FlexBox>
 
-                        <FlexBox direction="column" gap=".5rem">
-                          <label
-                            htmlFor={`speed-${count}`}
-                            style={{ fontSize: ".75rem" }}
-                          >
-                            Speed
-                          </label>
-                          <Dropdown
-                            className="p-inputtext-sm"
-                            inputId={`speed-${count}`}
-                            optionLabel="name"
-                            value={setsDetailControl.getSpeed(count)}
-                            onChange={(e) =>
-                              e.value &&
-                              setsDetailControl.onChangeSpeedForSet(
-                                e.value,
-                                count
-                              )
-                            }
-                            options={speedOptions}
-                          />
-                        </FlexBox>
+                          <FlexBox direction="column" gap=".5rem">
+                            <label
+                              htmlFor={`speed-${setIndex}`}
+                              style={{ fontSize: ".75rem" }}
+                            >
+                              Speed
+                            </label>
+                            <Dropdown
+                              className="p-inputtext-sm"
+                              inputId={`speed-${setIndex}`}
+                              optionLabel="name"
+                              value={setsDetailControl.getSpeed(setIndex)}
+                              onChange={(e) =>
+                                e.value &&
+                                setsDetailControl.onChangeSpeedForSet(
+                                  e.value,
+                                  setIndex
+                                )
+                              }
+                              options={speedOptions}
+                            />
+                          </FlexBox>
 
-                        <FlexBox direction="column" gap=".5rem">
-                          <label
-                            htmlFor={`intensity-${count}`}
-                            style={{ fontSize: ".75rem" }}
-                          >
-                            Intensity
-                          </label>
-                          <Dropdown
-                            className="p-inputtext-sm"
-                            inputId={`intensity-${count}`}
-                            optionLabel="name"
-                            value={setsDetailControl.getIntensity(count)}
-                            onChange={(e) =>
-                              e.value &&
-                              setsDetailControl.onChangeIntensityForSet(
-                                e.value,
-                                count
-                              )
-                            }
-                            options={intensityOptions}
-                          />
+                          <FlexBox direction="column" gap=".5rem">
+                            <label
+                              htmlFor={`intensity-${setIndex}`}
+                              style={{ fontSize: ".75rem" }}
+                            >
+                              Intensity
+                            </label>
+                            <Dropdown
+                              className="p-inputtext-sm"
+                              inputId={`intensity-${setIndex}`}
+                              optionLabel="name"
+                              value={setsDetailControl.getIntensity(setIndex)}
+                              onChange={(e) =>
+                                e.value &&
+                                setsDetailControl.onChangeIntensityForSet(
+                                  e.value,
+                                  setIndex
+                                )
+                              }
+                              options={intensityOptions}
+                            />
+                          </FlexBox>
                         </FlexBox>
-                      </FlexBox>
-                    </>
-                  )}
-                </FlexBox>
-              </SwipeableListItem>
-            </React.Fragment>
-          ))}
+                      </>
+                    )}
+                  </FlexBox>
+                </SwipeableListItem>
+              </React.Fragment>
+            )
+          )}
         </SwipeableList>
       </FlexBox>
 

@@ -100,7 +100,7 @@ const useSetDetailsControl = (
     setsDetailControl.field.onChange(updatedSetsDetail);
   };
   return {
-    ...setsDetailControl,
+    control: setsDetailControl,
     onDeleteSet,
     onAddSet,
     onChangeRepsForSet,
