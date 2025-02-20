@@ -82,7 +82,8 @@ const useSetDetailsControl = (
     return isDropset ? "yes" : "no";
   };
 
-  const onDeleteSet = (setNumber: number) => {
+  const onDeleteSet = (setNumber: number | null) => {
+    if (setNumber === null) return;
     const currentSetsDetail = setsDetailControl.field.value;
     const updatedSetsDetail = currentSetsDetail.filter(
       (_, index) => index !== setNumber

@@ -22,6 +22,7 @@ import {
 } from "@sandstreamdev/react-swipeable-list";
 import "@sandstreamdev/react-swipeable-list/dist/styles.css";
 import "./index.css";
+import { Dialog } from "primereact/dialog";
 
 export type AddExerciseToCreateWorkoutTemplateFormProps = {
   exercise: WithId<ExerciseTemplate>;
@@ -34,6 +35,9 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
 }: AddExerciseToCreateWorkoutTemplateFormProps) => {
   const { form, formErrors, notesControl, setsDetailControl } =
     useAddExerciseToCreateWorkoutTemplateForm(exercise);
+  const [setIndexToDelete, setSetIndexToDelete] = React.useState<number | null>(
+    null
+  );
 
   const onSubmit = form.handleSubmit(
     (formData) => {
@@ -43,8 +47,6 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
       console.log("errors", e);
     }
   );
-
-  console.log("sets", setsDetailControl.field.value);
 
   return (
     <form
@@ -69,6 +71,34 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
         className="workout-template-exercise-set-list"
       >
         <SwipeableList>
+          <Dialog
+            header={`Delete Set ${(setIndexToDelete ?? 0) + 1}`}
+            visible={setIndexToDelete !== null}
+            style={{ width: "75vw" }}
+            onHide={() => setSetIndexToDelete(null)}
+          >
+            Confirm deletion of set
+            <FlexBox
+              gap="1rem"
+              justify="flex-end"
+              style={{ marginTop: "2rem" }}
+            >
+              <Button
+                severity="secondary"
+                onClick={() => setSetIndexToDelete(null)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  setsDetailControl.onDeleteSet(setIndexToDelete);
+                  setSetIndexToDelete(null);
+                }}
+              >
+                Delete
+              </Button>
+            </FlexBox>
+          </Dialog>
           {range(0, setsDetailControl.field.value.length).map((count) => (
             <React.Fragment>
               <Divider />
@@ -83,7 +113,7 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
                       <div>Delete Set</div>
                     </FlexBox>
                   ),
-                  action: () => setsDetailControl.onDeleteSet(count),
+                  action: () => setSetIndexToDelete(count),
                 }}
                 onSwipeProgress={(progress) =>
                   console.info(`Swipe progress: ${progress}%`)
