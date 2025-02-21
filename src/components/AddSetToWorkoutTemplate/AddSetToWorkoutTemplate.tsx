@@ -33,7 +33,6 @@ export const AddSetToWorkoutTemplate = ({
     number | null
   >(null);
 
-  console.log(control.control.field.value);
   return (
     <React.Fragment>
       <Divider />

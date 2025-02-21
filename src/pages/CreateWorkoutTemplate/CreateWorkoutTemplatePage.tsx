@@ -8,7 +8,7 @@ import {
   ExerciseTemplate,
 } from "../../types/Workout";
 import { WithId } from "../../types/General";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Card } from "primereact/card";
 import { Tag } from "primereact/tag";
 import { exerciseTypes } from "../../const/workout";
@@ -21,6 +21,7 @@ import { useCreateWorkoutTemplate } from "../../hooks/mutations/useCreateWorkout
 import { WorkoutTemplateExerciseCard } from "../../components/WorkoutTemplateExerciseCard";
 
 export const CreateWorkoutTemplatePage = () => {
+  const exerciseRef = useRef<HTMLInputElement | null>(null);
   const toast = useToast();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const createWorkoutTemplate = useCreateWorkoutTemplate();
@@ -139,7 +140,11 @@ export const CreateWorkoutTemplatePage = () => {
           invalid={!!formErrors.exercises?.message}
           suggestions={exercisesControl.filteredExercises}
           completeMethod={(e) => exercisesControl.search(e.query)}
-          onChange={(e) => selectExercise(e)}
+          inputRef={exerciseRef}
+          onChange={(e) => {
+            selectExercise(e);
+            exerciseRef.current?.blur();
+          }}
           pt={{
             container: {
               style: {
