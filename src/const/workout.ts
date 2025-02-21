@@ -38,6 +38,8 @@ export const speedOptions: InputOption<string, Speed>[] = [
   { name: "View Notes", code: "view-notes" },
 ];
 
+export const ViewNotesCode = "view-notes";
+
 export const intensityOptions: InputOption<string, Intensity>[] = [
   { name: "Light", code: "light" },
   { name: "Moderate", code: "moderate" },

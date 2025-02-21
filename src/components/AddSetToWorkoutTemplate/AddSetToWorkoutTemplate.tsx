@@ -6,11 +6,12 @@ import { FlexBox } from "../FlexBox";
 import isNil from "lodash/isNil";
 import { AddExerciseToCreateTemplateDropsetControl } from "../AddExerciseToCreateTemplateDropsetControl/AddExerciseToCreateTemplateDropsetControl";
 import { InputNumber } from "primereact/inputnumber";
-import { Dropdown } from "primereact/dropdown";
 import { intensityOptions, speedOptions } from "../../const/workout";
 import { FieldErrors } from "react-hook-form";
 import { AddExerciseToWorkoutTemplateForm } from "../../types/Workout";
 import { SetExerciseDetailsControlReturn } from "../../types/WorkoutTemplateForm";
+import { Tag } from "primereact/tag";
+import { SelectDialog } from "../SelectDialog";
 
 type AddSetToWorkoutTemplateProps = {
   index: number;
@@ -25,9 +26,53 @@ export const AddSetToWorkoutTemplate = ({
   index,
   setSetIndexToDelete,
 }: AddSetToWorkoutTemplateProps) => {
+  const [setToChangeSpeed, setSetToChangeSpeed] = React.useState<number | null>(
+    null
+  );
+  const [setToChangeIntensity, setSetToChangeIntensity] = React.useState<
+    number | null
+  >(null);
+
+  console.log(control.control.field.value);
   return (
     <React.Fragment>
       <Divider />
+      <SelectDialog
+        visible={setToChangeSpeed !== null}
+        header="Select Speed"
+        onHide={() => setSetToChangeSpeed(null)}
+        options={speedOptions}
+        onEditOption={(option) => {
+          control.onChangeSpeedForSet(option, setToChangeSpeed!);
+          setSetToChangeSpeed(null);
+        }}
+        infoMessage={
+          <div>
+            <div style={{ fontSize: ".75rem" }}>Use Notes to add detail.</div>
+            <div style={{ fontSize: ".75rem" }}>
+              Example: Set 1 slow, set 2 fast
+            </div>
+          </div>
+        }
+      />
+      <SelectDialog
+        visible={setToChangeIntensity !== null}
+        header="Select Intensity"
+        onHide={() => setSetToChangeIntensity(null)}
+        options={intensityOptions}
+        onEditOption={(option) => {
+          control.onChangeIntensityForSet(option, setToChangeIntensity!);
+          setSetToChangeIntensity(null);
+        }}
+        infoMessage={
+          <div>
+            <div style={{ fontSize: ".75rem" }}>Use Notes to add detail.</div>
+            <div style={{ fontSize: ".75rem" }}>
+              Example: Set 1 light, set 2 heavy
+            </div>
+          </div>
+        }
+      />
       <SwipeableListItem
         threshold={0.25}
         swipeLeft={{
@@ -41,9 +86,6 @@ export const AddSetToWorkoutTemplate = ({
           ),
           action: () => setSetIndexToDelete(index),
         }}
-        onSwipeProgress={(progress) =>
-          console.info(`Swipe progress: ${progress}%`)
-        }
       >
         <FlexBox key={index} direction="column">
           <div style={{ marginBottom: ".5rem" }}>
@@ -102,42 +144,36 @@ export const AddSetToWorkoutTemplate = ({
                   />
                 </FlexBox>
 
-                <FlexBox direction="column" gap=".5rem">
-                  <label
-                    htmlFor={`speed-${index}`}
-                    style={{ fontSize: ".75rem" }}
+                <FlexBox direction="column" gap=".5rem" justify="center">
+                  <label style={{ fontSize: ".75rem" }}>Speed</label>
+                  <Tag
+                    pt={{
+                      root: {
+                        style: {
+                          padding: ".5rem",
+                        },
+                      },
+                    }}
+                    onClick={() => setSetToChangeSpeed(index)}
                   >
-                    Speed
-                  </label>
-                  <Dropdown
-                    className="p-inputtext-sm"
-                    inputId={`speed-${index}`}
-                    optionLabel="name"
-                    value={control.getSpeed(index)}
-                    onChange={(e) =>
-                      e.value && control.onChangeSpeedForSet(e.value, index)
-                    }
-                    options={speedOptions}
-                  />
+                    {control.getSpeed(index)?.name}
+                  </Tag>
                 </FlexBox>
 
-                <FlexBox direction="column" gap=".5rem">
-                  <label
-                    htmlFor={`intensity-${index}`}
-                    style={{ fontSize: ".75rem" }}
+                <FlexBox direction="column" gap=".5rem" justify="center">
+                  <label style={{ fontSize: ".75rem" }}>Intensity</label>
+                  <Tag
+                    pt={{
+                      root: {
+                        style: {
+                          padding: ".5rem",
+                        },
+                      },
+                    }}
+                    onClick={() => setSetToChangeIntensity(index)}
                   >
-                    Intensity
-                  </label>
-                  <Dropdown
-                    className="p-inputtext-sm"
-                    inputId={`intensity-${index}`}
-                    optionLabel="name"
-                    value={control.getIntensity(index)}
-                    onChange={(e) =>
-                      e.value && control.onChangeIntensityForSet(e.value, index)
-                    }
-                    options={intensityOptions}
-                  />
+                    {control.getIntensity(index)?.name}
+                  </Tag>
                 </FlexBox>
               </FlexBox>
             </>
