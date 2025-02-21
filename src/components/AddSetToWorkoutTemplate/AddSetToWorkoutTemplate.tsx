@@ -118,7 +118,7 @@ export const AddSetToWorkoutTemplate = ({
                   </FlexBox> */}
 
               <FlexBox gap="1rem" style={{ marginTop: "1rem" }}>
-                <FlexBox direction="column" gap=".5rem">
+                <FlexBox direction="column" gap=".5rem" align="center">
                   <label
                     htmlFor={`reps-${index}`}
                     style={{ fontSize: ".75rem" }}
@@ -128,10 +128,16 @@ export const AddSetToWorkoutTemplate = ({
                   <InputNumber
                     size={1.5}
                     pt={{
+                      root: {
+                        style: {
+                          height: "30px",
+                        },
+                      },
                       input: {
                         root: {
                           style: {
                             padding: ".375rem",
+                            textAlign: "center",
                           },
                         },
                       },
