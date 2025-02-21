@@ -10,8 +10,8 @@ import {
 } from "../../types/Workout";
 import { Button } from "primereact/button";
 import { SwipeableList } from "@sandstreamdev/react-swipeable-list";
-import { Dialog } from "primereact/dialog";
 import { AddSetToWorkoutTemplate } from "../AddSetToWorkoutTemplate";
+import { DeleteSetFromWorkoutTemplateDialog } from "../DeleteSetFromWorkoutTemplateDialog";
 import "./index.css";
 
 export type AddExerciseToCreateWorkoutTemplateFormProps = {
@@ -61,34 +61,11 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
         className="workout-template-exercise-set-list"
       >
         <SwipeableList>
-          <Dialog
-            header={`Delete Set ${(setIndexToDelete ?? 0) + 1}`}
-            visible={setIndexToDelete !== null}
-            style={{ width: "75vw" }}
-            onHide={() => setSetIndexToDelete(null)}
-          >
-            Confirm deletion of set
-            <FlexBox
-              gap="1rem"
-              justify="flex-end"
-              style={{ marginTop: "2rem" }}
-            >
-              <Button
-                severity="secondary"
-                onClick={() => setSetIndexToDelete(null)}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  setsDetailControl.onDeleteSet(setIndexToDelete);
-                  setSetIndexToDelete(null);
-                }}
-              >
-                Delete
-              </Button>
-            </FlexBox>
-          </Dialog>
+          <DeleteSetFromWorkoutTemplateDialog
+            setIndexToDelete={setIndexToDelete}
+            setSetIndexToDelete={setSetIndexToDelete}
+            onDeleteSet={setsDetailControl.onDeleteSet}
+          />
           {range(0, setsDetailControl.control.field.value.length).map(
             (index) => (
               <AddSetToWorkoutTemplate
