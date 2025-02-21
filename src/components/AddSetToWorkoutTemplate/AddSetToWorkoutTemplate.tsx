@@ -127,7 +127,7 @@ export const AddSetToWorkoutTemplate = ({
                     Reps
                   </label>
                   <InputNumber
-                    size={1.5}
+                    size={3}
                     pt={pt.InputNumber}
                     inputId={`reps-${index}`}
                     onFocus={(e) => e.target.select()}
