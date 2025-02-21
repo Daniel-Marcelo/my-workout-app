@@ -12,6 +12,7 @@ import { AddExerciseToWorkoutTemplateForm } from "../../types/Workout";
 import { SetExerciseDetailsControlReturn } from "../../types/WorkoutTemplateForm";
 import { Tag } from "primereact/tag";
 import { SelectDialog } from "../SelectDialog";
+import { pt } from "../../const/pt";
 
 type AddSetToWorkoutTemplateProps = {
   index: number;
@@ -127,21 +128,7 @@ export const AddSetToWorkoutTemplate = ({
                   </label>
                   <InputNumber
                     size={1.5}
-                    pt={{
-                      root: {
-                        style: {
-                          height: "30px",
-                        },
-                      },
-                      input: {
-                        root: {
-                          style: {
-                            padding: ".375rem",
-                            textAlign: "center",
-                          },
-                        },
-                      },
-                    }}
+                    pt={pt.InputNumber}
                     inputId={`reps-${index}`}
                     onFocus={(e) => e.target.select()}
                     value={control.control.field.value[index].reps}
@@ -193,6 +180,33 @@ export const AddSetToWorkoutTemplate = ({
                       {control.getIntensity(index)?.name.charAt(0)}
                     </Tag>
                   </FlexBox>
+                </FlexBox>
+
+                <FlexBox direction="column" gap=".5rem" align="center">
+                  <label
+                    htmlFor={`rest-${index}`}
+                    style={{ fontSize: ".75rem" }}
+                  >
+                    Rest (sec)
+                  </label>
+                  <InputNumber
+                    size={3}
+                    pt={pt.InputNumber}
+                    inputId={`rest-${index}`}
+                    onFocus={(e) => e.target.select()}
+                    value={control.control.field.value[index].restSeconds}
+                    onChange={(e) =>
+                      e.value && control.onChangeRestForSet(e.value, index)
+                    }
+                    buttonLayout="horizontal"
+                    step={1}
+                    maxFractionDigits={0}
+                    max={100}
+                    min={1}
+                    style={{
+                      height: "38px",
+                    }}
+                  />
                 </FlexBox>
               </FlexBox>
             </>

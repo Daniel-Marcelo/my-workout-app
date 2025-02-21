@@ -37,6 +37,14 @@ const useSetDetailsControl = (
     setsDetailControl.field.onChange(updatedSetDetail);
   };
 
+  const onChangeRestForSet = (restSec: number, setNumber: number) => {
+    const currentSetDetail = setsDetailControl.field.value;
+    const updatedSetDetail = [...currentSetDetail].map((set, index) =>
+      index === setNumber ? { ...set, restSeconds: restSec } : set
+    );
+    setsDetailControl.field.onChange(updatedSetDetail);
+  };
+
   const onChangeSpeedForSet = (
     speed: InputOption<string, Speed>,
     setNumber: number
@@ -111,6 +119,7 @@ const useSetDetailsControl = (
     onChangeSpeedForSet,
     onChangeIsDropset,
     getIsDropset,
+    onChangeRestForSet,
   };
 };
 
@@ -120,6 +129,7 @@ const getDefaultSetTemplate = (setNumber = 1): SetTemplate => ({
   intensity: "moderate",
   speed: "medium",
   isDropset: null,
+  restSeconds: 60,
 });
 
 export const useAddExerciseToCreateWorkoutTemplateForm = (

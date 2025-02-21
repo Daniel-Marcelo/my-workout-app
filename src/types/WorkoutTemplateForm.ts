@@ -21,4 +21,5 @@ export type SetExerciseDetailsControlReturn = {
   ) => void;
   onChangeIsDropset: (isDropSet: "no" | "yes", setNumber: number) => void;
   getIsDropset: (setNumber: number) => "no" | "yes" | null;
+  onChangeRestForSet: (restSec: number, setNumber: number) => void;
 };

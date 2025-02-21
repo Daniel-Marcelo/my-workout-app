@@ -24,6 +24,7 @@ export type SetTemplate = {
   setNumber: number;
   isDropset: boolean | null;
   reps: number;
+  restSeconds: number;
   intensity: Intensity;
   speed: Speed;
 };
