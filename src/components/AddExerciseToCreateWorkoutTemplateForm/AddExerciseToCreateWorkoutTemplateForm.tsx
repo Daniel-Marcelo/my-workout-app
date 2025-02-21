@@ -127,13 +127,19 @@ export const AddExerciseToCreateWorkoutTemplateForm = ({
                       {setIndex + 1}
                     </div>
 
-                    <AddExerciseToCreateTemplateDropsetControl
-                      setIndex={setIndex}
-                      formErrors={formErrors}
-                      getIsDropset={setsDetailControl.getIsDropset}
-                      onChangeIsDropset={setsDetailControl.onChangeIsDropset}
-                      value={setsDetailControl.control.field.value}
-                    />
+                    <FlexBox
+                      gap="1rem"
+                      align="center"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <AddExerciseToCreateTemplateDropsetControl
+                        setIndex={setIndex}
+                        formErrors={formErrors}
+                        getIsDropset={setsDetailControl.getIsDropset}
+                        onChangeIsDropset={setsDetailControl.onChangeIsDropset}
+                        value={setsDetailControl.control.field.value}
+                      />
+                    </FlexBox>
                     {!isNil(setsDetailControl.getIsDropset(setIndex)) && (
                       <>
                         {/* <FlexBox

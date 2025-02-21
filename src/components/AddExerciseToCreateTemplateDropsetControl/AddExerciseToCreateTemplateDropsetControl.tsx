@@ -1,6 +1,5 @@
 import { RadioButton } from "primereact/radiobutton";
 import { BinaryOptions } from "../../const/general";
-import { FlexBox } from "../FlexBox";
 import isNil from "lodash/isNil";
 import { FieldErrors } from "react-hook-form";
 import {
@@ -23,7 +22,7 @@ export const AddExerciseToCreateTemplateDropsetControl = ({
   formErrors,
 }: AddExerciseToCreateTemplateDropsetControlProps) => {
   return (
-    <FlexBox gap="1rem" align="center" style={{ cursor: "pointer" }}>
+    <>
       <label>Dropset?</label>
       {BinaryOptions.map((option) => (
         <div
@@ -50,6 +49,6 @@ export const AddExerciseToCreateTemplateDropsetControl = ({
           </label>
         </div>
       ))}
-    </FlexBox>
+    </>
   );
 };
