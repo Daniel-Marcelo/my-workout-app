@@ -143,7 +143,7 @@ export const CreateWorkoutTemplatePage = () => {
           inputRef={exerciseRef}
           onChange={(e) => {
             selectExercise(e);
-            exerciseRef.current?.blur();
+            setTimeout(() => exerciseRef.current?.blur(), 0);
           }}
           pt={{
             container: {
