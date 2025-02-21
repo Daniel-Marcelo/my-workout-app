@@ -16,7 +16,6 @@ export type ExerciseTemplate = {
 
 export type CreateWorkoutTemplateForm = {
   name: string;
-  muscleGroups: InputOption[];
   exercises: ({ tempId: string } & AddExerciseToWorkoutTemplateForm)[];
 };
 

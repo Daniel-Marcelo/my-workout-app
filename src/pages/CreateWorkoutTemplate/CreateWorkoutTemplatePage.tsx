@@ -25,13 +25,8 @@ export const CreateWorkoutTemplatePage = () => {
   const toast = useToast();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const createWorkoutTemplate = useCreateWorkoutTemplate();
-  const {
-    form,
-    formErrors,
-    nameControl,
-    muscleGroupsControl,
-    exercisesControl,
-  } = useCreateWorkoutTemplateForm();
+  const { form, formErrors, nameControl, exercisesControl } =
+    useCreateWorkoutTemplateForm();
 
   const [selectedExercise, setSelectedExercise] =
     useState<WithId<ExerciseTemplate>>();
@@ -82,30 +77,6 @@ export const CreateWorkoutTemplatePage = () => {
             value={nameControl.field.value}
             onChange={nameControl.field.onChange}
             invalid={!!formErrors.name?.message}
-          />
-        </FlexBox>
-
-        <FlexBox
-          direction="column"
-          gap="1rem"
-          style={{ width: "100%", marginBottom: "2rem" }}
-        >
-          <label htmlFor="name">Muscle Groups</label>
-          <AutoComplete
-            field="name"
-            multiple
-            invalid={!!formErrors.muscleGroups?.message}
-            value={muscleGroupsControl.field.value}
-            suggestions={muscleGroupsControl.filteredMuscleGroups}
-            completeMethod={(e) => muscleGroupsControl.search(e.query)}
-            onChange={muscleGroupsControl.field.onChange}
-            pt={{
-              container: {
-                style: {
-                  width: "100%",
-                },
-              },
-            }}
           />
         </FlexBox>
       </form>

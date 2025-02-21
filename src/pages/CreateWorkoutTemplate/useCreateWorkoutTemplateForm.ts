@@ -3,49 +3,9 @@ import {
   CreateWorkoutTemplateForm,
   ExerciseTemplate,
 } from "../../types/Workout";
-import { muscleGroupOptions } from "../../const/workout";
 import { useState } from "react";
 import { useGetExercises } from "../../hooks/queries/useGetExercises";
 import { WithId } from "../../types/General";
-
-const useMuscleGroupsControl = (
-  form: UseFormReturn<CreateWorkoutTemplateForm>
-) => {
-  const muscleGroupsControl = useController({
-    control: form.control,
-    name: "muscleGroups",
-    rules: {
-      validate: (data) => {
-        return !data || data?.length === 0
-          ? "Please select muscle group(s)"
-          : true;
-      },
-    },
-  });
-
-  const [filteredMuscleGroups, setFilteredMuscleGroups] =
-    useState(muscleGroupOptions);
-
-  const search = (text: string) => {
-    let filteredMuscleGroups;
-
-    if (!text.trim().length) {
-      filteredMuscleGroups = [...muscleGroupOptions];
-    } else {
-      filteredMuscleGroups = muscleGroupOptions.filter((muscle) => {
-        return muscle.code.toLowerCase().startsWith(text.toLowerCase());
-      });
-    }
-
-    setFilteredMuscleGroups(filteredMuscleGroups);
-  };
-
-  return {
-    ...muscleGroupsControl,
-    filteredMuscleGroups,
-    search,
-  };
-};
 
 const useExercisesControl = (
   form: UseFormReturn<CreateWorkoutTemplateForm>
@@ -93,7 +53,6 @@ export const useCreateWorkoutTemplateForm = () => {
   const form = useForm<CreateWorkoutTemplateForm>({
     defaultValues: {
       name: "",
-      muscleGroups: [],
       exercises: [],
     },
   });
@@ -106,7 +65,6 @@ export const useCreateWorkoutTemplateForm = () => {
     },
   });
 
-  const muscleGroupsControl = useMuscleGroupsControl(form);
   const exercisesControl = useExercisesControl(form);
 
   const formErrors = form.formState.errors;
@@ -115,7 +73,6 @@ export const useCreateWorkoutTemplateForm = () => {
     form,
     formErrors,
     nameControl,
-    muscleGroupsControl,
     exercisesControl,
   };
 };
