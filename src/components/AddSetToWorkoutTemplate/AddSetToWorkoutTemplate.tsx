@@ -128,6 +128,7 @@ export const AddSetToWorkoutTemplate = ({
                   <InputNumber
                     size={2}
                     inputId={`reps-${index}`}
+                    onFocus={(e) => e.target.select()}
                     value={control.control.field.value[index].reps}
                     onChange={(e) =>
                       e.value && control.onChangeRepsForSet(e.value, index)
