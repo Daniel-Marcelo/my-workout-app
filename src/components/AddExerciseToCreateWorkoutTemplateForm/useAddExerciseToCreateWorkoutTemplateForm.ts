@@ -10,10 +10,11 @@ import {
 import { useEffect } from "react";
 import { intensityOptions, speedOptions } from "../../const/workout";
 import { isNil } from "lodash";
+import { SetExerciseDetailsControlReturn } from "../../types/WorkoutTemplateForm";
 
 const useSetDetailsControl = (
   form: UseFormReturn<AddExerciseToWorkoutTemplateForm>
-) => {
+): SetExerciseDetailsControlReturn => {
   const setsDetailControl = useController({
     name: "sets",
     control: form.control,
