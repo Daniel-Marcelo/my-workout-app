@@ -47,7 +47,7 @@ export const SelectDialog = <Item,>({
       header={header}
       onHide={onHide}
       style={{
-        width: "30vw",
+        width: "50vw",
       }}
     >
       <FlexBox gap="1rem" direction="column" align="center" justify="center">
