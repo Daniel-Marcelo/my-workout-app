@@ -126,7 +126,7 @@ export const AddSetToWorkoutTemplate = ({
                     Reps
                   </label>
                   <InputNumber
-                    size={1}
+                    size={2}
                     inputId={`reps-${index}`}
                     value={control.control.field.value[index].reps}
                     onChange={(e) =>
