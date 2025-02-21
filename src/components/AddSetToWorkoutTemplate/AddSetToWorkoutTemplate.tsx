@@ -127,6 +127,15 @@ export const AddSetToWorkoutTemplate = ({
                   </label>
                   <InputNumber
                     size={1.5}
+                    pt={{
+                      input: {
+                        root: {
+                          style: {
+                            padding: ".375rem",
+                          },
+                        },
+                      },
+                    }}
                     inputId={`reps-${index}`}
                     onFocus={(e) => e.target.select()}
                     value={control.control.field.value[index].reps}
@@ -146,34 +155,38 @@ export const AddSetToWorkoutTemplate = ({
 
                 <FlexBox direction="column" gap=".5rem" justify="center">
                   <label style={{ fontSize: ".75rem" }}>Speed</label>
-                  <Tag
-                    pt={{
-                      root: {
-                        style: {
-                          padding: ".5rem",
+                  <FlexBox justify="center">
+                    <Tag
+                      pt={{
+                        root: {
+                          style: {
+                            padding: ".5rem",
+                          },
                         },
-                      },
-                    }}
-                    onClick={() => setSetToChangeSpeed(index)}
-                  >
-                    {control.getSpeed(index)?.name}
-                  </Tag>
+                      }}
+                      onClick={() => setSetToChangeSpeed(index)}
+                    >
+                      {control.getSpeed(index)?.name.charAt(0)}
+                    </Tag>
+                  </FlexBox>
                 </FlexBox>
 
                 <FlexBox direction="column" gap=".5rem" justify="center">
                   <label style={{ fontSize: ".75rem" }}>Intensity</label>
-                  <Tag
-                    pt={{
-                      root: {
-                        style: {
-                          padding: ".5rem",
+                  <FlexBox justify="center">
+                    <Tag
+                      pt={{
+                        root: {
+                          style: {
+                            padding: ".5rem",
+                          },
                         },
-                      },
-                    }}
-                    onClick={() => setSetToChangeIntensity(index)}
-                  >
-                    {control.getIntensity(index)?.name}
-                  </Tag>
+                      }}
+                      onClick={() => setSetToChangeIntensity(index)}
+                    >
+                      {control.getIntensity(index)?.name.charAt(0)}
+                    </Tag>
+                  </FlexBox>
                 </FlexBox>
               </FlexBox>
             </>
