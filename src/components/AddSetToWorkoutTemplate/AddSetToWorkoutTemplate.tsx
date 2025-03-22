@@ -13,6 +13,7 @@ import { SetExerciseDetailsControlReturn } from "../../types/WorkoutTemplateForm
 import { Tag } from "primereact/tag";
 import { SelectDialog } from "../SelectDialog";
 import { pt } from "../../const/pt";
+import { Button } from "primereact/button";
 
 type AddSetToWorkoutTemplateProps = {
   index: number;
@@ -33,6 +34,16 @@ export const AddSetToWorkoutTemplate = ({
   const [setToChangeIntensity, setSetToChangeIntensity] = React.useState<
     number | null
   >(null);
+
+  const getRepsForSet = (setNumber: number, round = 0) => {
+    const setConfig = control.control.field.value[setNumber];
+    return setConfig.rounds[round].reps;
+  };
+
+  const getRestForSet = (setNumber: number, round = 0) => {
+    const setConfig = control.control.field.value[setNumber];
+    return setConfig.rounds[round].restSeconds;
+  };
 
   return (
     <React.Fragment>
@@ -93,7 +104,7 @@ export const AddSetToWorkoutTemplate = ({
             {index + 1}
           </div>
 
-          <FlexBox gap="1rem" align="center" style={{ cursor: "pointer" }}>
+          {/* <FlexBox gap="1rem" align="center" style={{ cursor: "pointer" }}>
             <AddExerciseToCreateTemplateDropsetControl
               setIndex={index}
               formErrors={formErrors}
@@ -101,9 +112,10 @@ export const AddSetToWorkoutTemplate = ({
               onChangeIsDropset={control.onChangeIsDropset}
               value={control.control.field.value}
             />
-          </FlexBox>
-          {!isNil(control.getIsDropset(index)) && (
-            <>
+          </FlexBox> */}
+          {/* {!isNil(control.getIsDropset(index)) && ( */}
+          {true && (
+            <FlexBox justify="space-between">
               {/* <FlexBox
                     gap="1rem"
                     align="center"
@@ -117,7 +129,6 @@ export const AddSetToWorkoutTemplate = ({
                       onChange={supersetControl.field.onChange}
                     />
                   </FlexBox> */}
-
               <FlexBox gap="1rem" style={{ marginTop: "1rem" }}>
                 <FlexBox direction="column" gap=".5rem" align="center">
                   <label
@@ -131,7 +142,7 @@ export const AddSetToWorkoutTemplate = ({
                     pt={pt.InputNumber}
                     inputId={`reps-${index}`}
                     onFocus={(e) => e.target.select()}
-                    value={control.control.field.value[index].reps}
+                    value={getRepsForSet(index)}
                     onChange={(e) =>
                       e.value && control.onChangeRepsForSet(e.value, index)
                     }
@@ -164,6 +175,33 @@ export const AddSetToWorkoutTemplate = ({
                   </FlexBox>
                 </FlexBox>
 
+                <FlexBox direction="column" gap=".5rem" align="center">
+                  <label
+                    htmlFor={`rest-${index}`}
+                    style={{ fontSize: ".75rem" }}
+                  >
+                    Rest (sec)
+                  </label>
+                  <InputNumber
+                    size={3}
+                    pt={pt.InputNumber}
+                    inputId={`rest-${index}`}
+                    onFocus={(e) => e.target.select()}
+                    value={getRestForSet(index)}
+                    onChange={(e) =>
+                      e.value && control.onChangeRestForSet(e.value, index)
+                    }
+                    buttonLayout="horizontal"
+                    step={1}
+                    maxFractionDigits={0}
+                    max={100}
+                    min={1}
+                    style={{
+                      height: "38px",
+                    }}
+                  />
+                </FlexBox>
+
                 <FlexBox direction="column" gap=".5rem" justify="center">
                   <label style={{ fontSize: ".75rem" }}>Intensity</label>
                   <FlexBox justify="center">
@@ -181,35 +219,31 @@ export const AddSetToWorkoutTemplate = ({
                     </Tag>
                   </FlexBox>
                 </FlexBox>
-
-                <FlexBox direction="column" gap=".5rem" align="center">
-                  <label
-                    htmlFor={`rest-${index}`}
-                    style={{ fontSize: ".75rem" }}
-                  >
-                    Rest (sec)
-                  </label>
-                  <InputNumber
-                    size={3}
-                    pt={pt.InputNumber}
-                    inputId={`rest-${index}`}
-                    onFocus={(e) => e.target.select()}
-                    value={control.control.field.value[index].restSeconds}
-                    onChange={(e) =>
-                      e.value && control.onChangeRestForSet(e.value, index)
-                    }
-                    buttonLayout="horizontal"
-                    step={1}
-                    maxFractionDigits={0}
-                    max={100}
-                    min={1}
-                    style={{
-                      height: "38px",
-                    }}
-                  />
-                </FlexBox>
               </FlexBox>
-            </>
+              <FlexBox align="flex-end">
+                <Button
+                  pt={{
+                    root: {
+                      style: {
+                        padding: ".5rem",
+                      },
+                    },
+                    icon: {
+                      style: {
+                        fontSize: ".75rem",
+                      },
+                    },
+                  }}
+                  type="button"
+                  icon="pi pi-plus"
+                  size="small"
+                  label="D"
+                  severity="success"
+                  outlined
+                  onClick={(e) => console.log(e)}
+                />
+              </FlexBox>
+            </FlexBox>
           )}
         </FlexBox>
       </SwipeableListItem>

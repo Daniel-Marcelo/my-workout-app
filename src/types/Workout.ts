@@ -28,13 +28,15 @@ export type SetTemplate = {
   speed: Speed;
 };
 
+export type SetRounds = { rounds: SetTemplate[] };
+
 export type AddExerciseToWorkoutTemplateForm = {
   name: string;
   equipment: string;
   muscleGroups: string[];
   superset: boolean;
   notes: string;
-  sets: SetTemplate[];
+  sets: SetRounds[];
 };
 
 export type Speed = "slow" | "medium" | "fast" | "view-notes";

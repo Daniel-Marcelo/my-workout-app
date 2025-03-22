@@ -46,3 +46,19 @@ export const intensityOptions: InputOption<string, Intensity>[] = [
   { name: "Heavy", code: "heavy" },
   { name: "View Notes", code: "view-notes" },
 ];
+
+export const dropsetOptions: InputOption<string, string>[] = [
+  {
+    name: "No",
+    code: "no",
+  },
+  { name: "2 sets", code: "2" },
+  { name: "3 sets", code: "3" },
+  { name: "4 sets", code: "4" },
+  { name: "5 sets", code: "5" },
+  { name: "6 sets", code: "6" },
+  { name: "7 sets", code: "7" },
+  { name: "8 sets", code: "8" },
+  { name: "9 sets", code: "9" },
+  { name: "10 sets", code: "10" },
+];

@@ -4,7 +4,7 @@ import {
   AddExerciseToWorkoutTemplateForm,
   ExerciseTemplate,
   Intensity,
-  SetTemplate,
+  SetRounds,
   Speed,
 } from "../../types/Workout";
 import { useEffect } from "react";
@@ -22,25 +22,55 @@ const useSetDetailsControl = (
       onChange: (e) => console.log(e),
       validate: (sets) => {
         return sets.every((set) => {
-          if (!isNil(set.isDropset)) return true;
-          return false;
+          if (!isNil(set.rounds[0].isDropset)) return true;
+          return "Please select if this is a dropset";
         });
       },
     },
   });
 
-  const onChangeRepsForSet = (repCount: number, setNumber: number) => {
+  const onChangeRepsForSet = (
+    repCount: number,
+    setIndex: number,
+    roundInd = 0
+  ) => {
     const currentSetDetail = setsDetailControl.field.value;
-    const updatedSetDetail = [...currentSetDetail].map((set, index) =>
-      index === setNumber ? { ...set, reps: repCount } : set
+    const updatedSetDetail: SetRounds[] = [...currentSetDetail].map(
+      (set, index) => {
+        if (index === setIndex) {
+          return {
+            ...set,
+            rounds: set.rounds.map((round, roundIndex) =>
+              roundIndex === roundInd ? { ...round, reps: repCount } : round
+            ),
+          };
+        }
+        return set;
+      }
     );
     setsDetailControl.field.onChange(updatedSetDetail);
   };
 
-  const onChangeRestForSet = (restSec: number, setNumber: number) => {
+  const onChangeRestForSet = (
+    restSec: number,
+    setIndex: number,
+    roundInd = 0
+  ) => {
     const currentSetDetail = setsDetailControl.field.value;
-    const updatedSetDetail = [...currentSetDetail].map((set, index) =>
-      index === setNumber ? { ...set, restSeconds: restSec } : set
+    const updatedSetDetail: SetRounds[] = [...currentSetDetail].map(
+      (set, index) => {
+        if (index === setIndex) {
+          return {
+            ...set,
+            rounds: set.rounds.map((round, roundIndex) =>
+              roundIndex === roundInd
+                ? { ...round, restSeconds: restSec }
+                : round
+            ),
+          };
+        }
+        return set;
+      }
     );
     setsDetailControl.field.onChange(updatedSetDetail);
   };
@@ -57,7 +87,7 @@ const useSetDetailsControl = (
   };
 
   const getSpeed = (setNumber: number) => {
-    const code = setsDetailControl.field.value[setNumber].speed;
+    const code = setsDetailControl.field.value[setNumber].rounds[0].speed;
     return speedOptions.find((option) => option.code === code);
   };
 
@@ -73,7 +103,7 @@ const useSetDetailsControl = (
   };
 
   const getIntensity = (setNumber: number) => {
-    const code = setsDetailControl.field.value[setNumber].intensity;
+    const code = setsDetailControl.field.value[setNumber].rounds[0].intensity;
     return intensityOptions.find((option) => option.code === code);
   };
 
@@ -86,7 +116,8 @@ const useSetDetailsControl = (
   };
 
   const getIsDropset = (setNumber: number) => {
-    const isDropset = setsDetailControl.field.value[setNumber]?.isDropset;
+    const isDropset =
+      setsDetailControl.field.value[setNumber]?.rounds[0].isDropset;
     if (isNil(isDropset)) return null;
     return isDropset ? "yes" : "no";
   };
@@ -123,13 +154,17 @@ const useSetDetailsControl = (
   };
 };
 
-const getDefaultSetTemplate = (setNumber = 1): SetTemplate => ({
-  setNumber,
-  reps: 10,
-  intensity: "moderate",
-  speed: "medium",
-  isDropset: null,
-  restSeconds: 60,
+const getDefaultSetTemplate = (setNumber = 1): SetRounds => ({
+  rounds: [
+    {
+      setNumber,
+      reps: 10,
+      intensity: "moderate",
+      speed: "medium",
+      isDropset: null,
+      restSeconds: 60,
+    },
+  ],
 });
 
 export const useAddExerciseToCreateWorkoutTemplateForm = (

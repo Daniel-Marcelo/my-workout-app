@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <Menu />
+      {/* <Menu /> */}
       <div style={{ flex: 1 }}>{children}</div>
     </>
   );

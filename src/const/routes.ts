@@ -4,4 +4,5 @@ export const AppRoutes = {
   Login: "/login",
   SignUp: "/signUp",
   WorkoutTemplate: "/workout/template",
+  CreateWorkoutPlan: "/workout/plan",
 };
