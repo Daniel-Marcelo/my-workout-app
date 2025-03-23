@@ -1,5 +1,5 @@
 import { InputOption } from "../types/General";
-import { Intensity, Speed } from "../types/Workout";
+import { Intensity, SetConfig, Speed } from "../types/Workout";
 
 export const muscleGroupOptions = [
   { name: "Chest", code: "chest" },
@@ -63,8 +63,22 @@ export const dropsetOptions: InputOption<string, string>[] = [
   { name: "10 sets", code: "10" },
 ];
 
-export const defaultSetConfig = () => ({
+export const defaultSetConfig = (): SetConfig => ({
   dropset: false,
   reps: 8,
   restSeconds: 60,
+  dropsetDetails: undefined,
 });
+
+export const defaultDropsetConfig = (
+  dropset: boolean
+): { reps: number; restSeconds: number }[] | undefined => {
+  if (dropset) {
+    return [
+      { reps: 8, restSeconds: 60 },
+      { reps: 8, restSeconds: 60 },
+      { reps: 8, restSeconds: 60 },
+    ];
+  }
+  return undefined;
+};

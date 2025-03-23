@@ -46,6 +46,7 @@ export type SetConfig = {
   dropset: boolean;
   reps: number;
   restSeconds: number;
+  dropsetDetails?: { reps: number; restSeconds: number }[];
 };
 
 export type PlanWorkout = {

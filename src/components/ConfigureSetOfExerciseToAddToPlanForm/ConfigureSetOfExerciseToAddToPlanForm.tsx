@@ -15,6 +15,8 @@ import {
   styleConfigureSetOfExerciseToAddToPlanForm,
 } from "./ConfigureSetOfExerciseToAddToPlanForm.styled";
 import { InputSwitch } from "primereact/inputswitch";
+import { PrimaryText } from "../PrimaryText";
+import { defaultDropsetConfig } from "../../const/workout";
 
 type ConfigureSetOfExerciseToAddToPlanFormProps = {
   exerciseQueryText: string;
@@ -41,22 +43,49 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
   const getRepsForSet = (index: number) =>
     setConfigControl.field.value[index]?.reps;
 
-  const getDropsetForSet = () => {
-    return setConfigToEdit?.dropset;
-  };
+  const getDropsetForSet = () => setConfigToEdit?.dropset;
 
   const onChangeDropsetForSet = (newDropset: boolean) => {
-    console.log(newDropset, "newDropset");
-    setSetConfigToEdit({
+    const newSetConfig: SetConfig = {
       ...setConfigToEdit,
       dropset: newDropset,
-    });
+      dropsetDetails: defaultDropsetConfig(newDropset),
+    };
+    setSetConfigToEdit(newSetConfig);
   };
 
   const onChangeRepsForSet = (newReps: number) => {
     setSetConfigToEdit({
       ...setConfigToEdit,
       reps: newReps,
+    });
+  };
+
+  const onChangeRepsForDropsetRound = (newReps: number, index: number) => {
+    const newDropsetDetails = setConfigToEdit.dropsetDetails
+      ? [...setConfigToEdit.dropsetDetails]
+      : [];
+    newDropsetDetails[index] = {
+      ...newDropsetDetails[index],
+      reps: newReps,
+    };
+    setSetConfigToEdit({
+      ...setConfigToEdit,
+      dropsetDetails: newDropsetDetails,
+    });
+  };
+
+  const onChangeRestForDropsetRound = (newRest: number, index: number) => {
+    const newDropsetDetails = setConfigToEdit.dropsetDetails
+      ? [...setConfigToEdit.dropsetDetails]
+      : [];
+    newDropsetDetails[index] = {
+      ...newDropsetDetails[index],
+      restSeconds: newRest,
+    };
+    setSetConfigToEdit({
+      ...setConfigToEdit,
+      dropsetDetails: newDropsetDetails,
     });
   };
 
@@ -73,10 +102,7 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
   const onSaveSetConfig = () => {
     const currentSetsConfig = setConfigControl.field.value;
     const updatedSetsConfig = [...currentSetsConfig].map((set, index) => {
-      if (index === setConfigIndexToEdit) {
-        return setConfigToEdit;
-      }
-      return set;
+      return index === setConfigIndexToEdit ? setConfigToEdit : set;
     });
 
     setConfigControl.field.onChange(updatedSetsConfig);
@@ -113,47 +139,113 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
           />
         </div>
 
-        <SecondaryText
-          bold
-          style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
-        >
-          Reps
-        </SecondaryText>
-        <InputNumber
-          size={3}
-          pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-          inputId={`reps-${setConfigIndexToEdit}`}
-          onFocus={(e) => e.target.select()}
-          value={getRepsForSet(setConfigIndexToEdit)}
-          onChange={(e) => e.value && onChangeRepsForSet(e.value)}
-          buttonLayout="horizontal"
-          step={1}
-          maxFractionDigits={0}
-          max={10}
-          min={1}
-          style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-        />
+        {!setConfigToEdit.dropset ? (
+          <>
+            <SecondaryText
+              bold
+              style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
+            >
+              Reps
+            </SecondaryText>
+            <InputNumber
+              size={3}
+              pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+              inputId={`reps-${setConfigIndexToEdit}`}
+              onFocus={(e) => e.target.select()}
+              value={getRepsForSet(setConfigIndexToEdit)}
+              onChange={(e) => e.value && onChangeRepsForSet(e.value)}
+              buttonLayout="horizontal"
+              step={1}
+              maxFractionDigits={0}
+              max={10}
+              min={1}
+              style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+            />
 
-        <SecondaryText
-          bold
-          style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
-        >
-          Rest (seconds)
-        </SecondaryText>
-        <InputNumber
-          size={3}
-          pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-          inputId={`reps-${setConfigIndexToEdit}`}
-          onFocus={(e) => e.target.select()}
-          value={getRestForSet(setConfigIndexToEdit)}
-          onChange={(e) => e.value && onChangeRestForSet(e.value)}
-          buttonLayout="horizontal"
-          step={1}
-          maxFractionDigits={0}
-          max={1000}
-          min={1}
-          style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-        />
+            <SecondaryText
+              bold
+              style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
+            >
+              Rest (seconds)
+            </SecondaryText>
+            <InputNumber
+              size={3}
+              pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+              inputId={`reps-${setConfigIndexToEdit}`}
+              onFocus={(e) => e.target.select()}
+              value={getRestForSet(setConfigIndexToEdit)}
+              onChange={(e) => e.value && onChangeRestForSet(e.value)}
+              buttonLayout="horizontal"
+              step={1}
+              maxFractionDigits={0}
+              max={1000}
+              min={1}
+              style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+            />
+          </>
+        ) : (
+          <>
+            {setConfigToEdit.dropsetDetails?.map((dropsetConfig, index) => (
+              <div style={{ marginTop: "2rem" }}>
+                <PrimaryText>Round {index + 1}</PrimaryText>
+                <div
+                  style={{
+                    paddingLeft: "1rem",
+                    paddingRight: "1rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <SecondaryText bold style={{ marginBottom: ".5rem" }}>
+                    Reps
+                  </SecondaryText>
+                  <InputNumber
+                    size={3}
+                    pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+                    inputId={`reps-${setConfigIndexToEdit}`}
+                    onFocus={(e) => e.target.select()}
+                    value={dropsetConfig.reps}
+                    onChange={(e) =>
+                      e.value && onChangeRepsForDropsetRound(e.value, index)
+                    }
+                    buttonLayout="horizontal"
+                    step={1}
+                    maxFractionDigits={0}
+                    max={10}
+                    min={1}
+                    style={
+                      styleConfigureSetOfExerciseToAddToPlanForm.InputNumber
+                    }
+                  />
+
+                  <SecondaryText
+                    bold
+                    style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
+                  >
+                    Rest (seconds)
+                  </SecondaryText>
+                  <InputNumber
+                    size={3}
+                    pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+                    inputId={`reps-${setConfigIndexToEdit}`}
+                    onFocus={(e) => e.target.select()}
+                    value={dropsetConfig.restSeconds}
+                    onChange={(e) =>
+                      e.value && onChangeRestForDropsetRound(e.value, index)
+                    }
+                    buttonLayout="horizontal"
+                    step={1}
+                    maxFractionDigits={0}
+                    max={1000}
+                    min={1}
+                    style={
+                      styleConfigureSetOfExerciseToAddToPlanForm.InputNumber
+                    }
+                  />
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       <Button label="Save Set" onClick={onSaveSetConfig} />
