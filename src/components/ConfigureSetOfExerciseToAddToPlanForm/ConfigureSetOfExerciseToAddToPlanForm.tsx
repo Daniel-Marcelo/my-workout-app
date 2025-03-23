@@ -108,7 +108,7 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
         >
           <SecondaryText bold>Dropset?</SecondaryText>
           <InputSwitch
-            checked={getDropsetForSet(setConfigIndexToEdit)}
+            checked={getDropsetForSet()}
             onChange={(e) => onChangeDropsetForSet(e.value)}
           />
         </div>

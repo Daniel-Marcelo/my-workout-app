@@ -3,8 +3,8 @@ import { useState } from "react";
 import { AddExerciseToPlanForm } from "../../components/AddExerciseToPlanForm";
 import {
   ExerciseTemplate,
+  PlanExerciseSetConfigForm,
   PlanWorkout,
-  SetConfig,
   WorkoutPlanForm,
 } from "../../types/Workout";
 import { WithId } from "../../types/General";
@@ -21,7 +21,7 @@ export const CreateWorkoutPlan = () => {
   const [setConfigIndexToEdit, setSetConfigIndexToEdit] = useState<number>();
   const createWorkoutPlan = useCreateWorkoutPlan();
 
-  const setConfigForm = useForm<{ setConfig: SetConfig[] }>({
+  const setConfigForm = useForm<PlanExerciseSetConfigForm>({
     defaultValues: {
       setConfig: [defaultSetConfig(), defaultSetConfig(), defaultSetConfig()],
     },
