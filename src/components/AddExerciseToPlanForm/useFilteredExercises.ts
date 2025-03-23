@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ExerciseTemplate } from "../../types/Workout";
 import { WithId } from "../../types/General";
 import { useGetExercises } from "../../hooks/queries/useGetExercises";
+import { isNil } from "lodash";
 
 export const useFilteredExercises = () => {
   const getExercises = useGetExercises();
 
   const [filteredExercises, setFilteredExercises] = useState<
-    WithId<ExerciseTemplate>[]
-  >([]);
+    WithId<ExerciseTemplate>[] | undefined
+  >(undefined);
+
+  useEffect(() => {
+    if (isNil(filteredExercises)) setFilteredExercises(getExercises.data);
+  }, [getExercises.data, filteredExercises]);
 
   const onUpdateFilteredExercises = (queryText: string) => {
     let filteredExercises: WithId<ExerciseTemplate>[];
@@ -25,5 +30,8 @@ export const useFilteredExercises = () => {
     setFilteredExercises(filteredExercises);
   };
 
-  return { filteredExercises, onUpdateFilteredExercises };
+  return {
+    filteredExercises: filteredExercises ?? [],
+    onUpdateFilteredExercises,
+  };
 };
