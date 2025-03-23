@@ -6,6 +6,10 @@ body {
   margin: 0;
 }
 
+html {
+  font-size: 87.5%; /* 14px / 16px * 100% */
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
