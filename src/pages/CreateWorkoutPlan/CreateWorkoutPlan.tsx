@@ -1,284 +1,142 @@
-import React from "react";
-import styled, { ThemeProvider } from "@xstyled/styled-components";
-
-// Define styled components corresponding to your HTML structure
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: white;
-  justify-content: space-between;
-  overflow-x: hidden;
-  font-family: "Lexend", "Noto Sans", sans-serif;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: white;
-  padding: 16px 0;
-  padding-bottom: 8px;
-  justify-content: space-between;
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  color: #111418;
-
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
-  }
-`;
-
-const Title = styled.h2`
-  color: #111418;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1.2;
-  text-align: center;
-  flex: 1;
-  letter-spacing: -0.015em;
-`;
-
-const SaveButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: #111418;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 12px;
-  height: 48px;
-  max-width: 480px;
-  padding: 0;
-  gap: 8px;
-  cursor: pointer;
-  min-width: 0;
-  overflow: hidden;
-`;
-
-// Define more styled components for rest of the structure...
-
-const InputWrapper = styled.div`
-  display: flex;
-  max-width: 480px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 16px;
-  padding: 12px 16px;
-`;
-
-const InputLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  min-width: 160px;
-  flex: 1;
-`;
-
-const InputField = styled.input`
-  flex: 1;
-  width: 100%;
-  background-color: #f0f2f4;
-  border-radius: 12px;
-  height: 56px;
-  padding: 16px;
-  font-size: 16px;
-  color: #111418;
-  border: none;
-  outline: none;
-
-  ::placeholder {
-    color: #637488;
-  }
-`;
-
-const SectionTitle = styled.h3`
-  color: #111418;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  padding: 16px;
-`;
-
-const ExerciseContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background-color: white;
-  padding: 8px 16px;
-  min-height: 72px;
-  justify-content: space-between;
-`;
-
-const ExerciseDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const ExerciseName = styled.p`
-  color: #111418;
-  font-size: 16px;
-  font-weight: medium;
-  line-height: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const ExerciseSets = styled.p`
-  color: #637488;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const SaveTemplateButton = styled.button`
-  display: flex;
-  min-width: 84px;
-  max-width: 480px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 12px;
-  height: 48px;
-  padding: 0 20px;
-  flex: 1;
-  background-color: #1979e6;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: normal;
-`;
-
-const PaddingBlock = styled.div`
-  height: 20px;
-  background-color: white;
-`;
+import { useController, useForm } from "react-hook-form";
+import { useState } from "react";
+import { AddExerciseToPlanForm } from "../../components/AddExerciseToPlanForm";
+import {
+  ExerciseTemplate,
+  PlanWorkout,
+  SetConfig,
+  WorkoutPlanForm,
+} from "../../types/Workout";
+import { WithId } from "../../types/General";
+import { ConfigureExerciseToAddToPlanForm } from "../../components/ConfigureExerciseToAddToPlanForm";
+import { defaultSetConfig } from "../../const/workout";
+import { ConfigureSetOfExerciseToAddToPlanForm } from "../../components/ConfigureSetOfExerciseToAddToPlanForm";
+import { isNil } from "lodash";
+import { CreatePlanForm } from "../../components/CreatePlanForm";
+import { useCreateWorkoutPlan } from "../../hooks/mutations/useCreateWorkoutPlan";
 
 export const CreateWorkoutPlan = () => {
+  const [showPlanForm, setShowPlanForm] = useState(true);
+  const [exerciseQueryText, setExerciseQueryText] = useState("");
+  const [setConfigIndexToEdit, setSetConfigIndexToEdit] = useState<number>();
+  const createWorkoutPlan = useCreateWorkoutPlan();
+
+  const setConfigForm = useForm<{ setConfig: SetConfig[] }>({
+    defaultValues: {
+      setConfig: [defaultSetConfig(), defaultSetConfig(), defaultSetConfig()],
+    },
+  });
+
+  const setConfigControl = useController({
+    name: "setConfig",
+    control: setConfigForm.control,
+  });
+
+  const [showSelectExerciseForm, setShowSelectExerciseForm] = useState(false);
+  const [exerciseToAdd, setExerciseToAdd] =
+    useState<WithId<ExerciseTemplate> | null>(null);
+
+  const planForm = useForm<WorkoutPlanForm>({
+    defaultValues: { name: "", planExercises: [] as PlanWorkout[] },
+  });
+  const nameControl = useController({
+    name: "name",
+    control: planForm.control,
+    rules: {
+      required: true,
+    },
+  });
+
+  const planExercisesControl = useController({
+    name: "planExercises",
+    control: planForm.control,
+    rules: {
+      required: true,
+    },
+  });
+
+  const onSaveExercise = () => {
+    if (exerciseToAdd) {
+      setShowPlanForm(true);
+      planExercisesControl.field.onChange([
+        ...(planExercisesControl.field.value ?? []),
+        {
+          exercise: exerciseToAdd,
+          setConfig: setConfigControl.field.value,
+        },
+      ]);
+      setExerciseToAdd(null);
+      setSetConfigIndexToEdit(undefined);
+      setExerciseQueryText("");
+      setConfigForm.reset();
+    }
+  };
+
+  const savePlan = planForm.handleSubmit(
+    (data) => createWorkoutPlan.mutate({ workoutPlan: data }),
+    (err) => console.log(err)
+  );
+
   return (
-    <Container>
-      <div>
-        <HeaderContainer>
-          <IconWrapper>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z" />
-            </svg>
-          </IconWrapper>
-          <Title>New Template</Title>
-          <SaveButton>
-            <IconWrapper>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z" />
-              </svg>
-            </IconWrapper>
-          </SaveButton>
-        </HeaderContainer>
+    <div
+      style={{
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        padding: "1rem",
+        paddingTop: "2rem",
+        paddingBottom: "2rem",
+      }}
+    >
+      {showPlanForm && (
+        <CreatePlanForm
+          planForm={planForm}
+          savePlan={savePlan}
+          nameControl={nameControl}
+          setShowPlanForm={setShowPlanForm}
+          setShowSelectExerciseForm={setShowSelectExerciseForm}
+          planExercises={planExercisesControl.field.value}
+        />
+      )}
+      {showSelectExerciseForm && (
+        <AddExerciseToPlanForm
+          setExerciseToAdd={setExerciseToAdd}
+          setShowPlanForm={setShowPlanForm}
+          setShowSelectExerciseForm={setShowSelectExerciseForm}
+          exerciseQueryText={exerciseQueryText}
+          setExerciseQueryText={setExerciseQueryText}
+        />
+      )}
 
-        <InputWrapper>
-          <InputLabel>
-            <p
-              style={{
-                color: "#111418",
-                fontSize: "16px",
-                fontWeight: "medium",
-                lineHeight: "normal",
-                paddingBottom: "8px",
-              }}
-            >
-              Name
-            </p>
-            <InputField placeholder="Legs" value="" />
-          </InputLabel>
-        </InputWrapper>
+      {exerciseToAdd && isNil(setConfigIndexToEdit) && (
+        <ConfigureExerciseToAddToPlanForm
+          onSaveExercise={onSaveExercise}
+          setSetConfigIndexToEdit={setSetConfigIndexToEdit}
+          setConfig={setConfigControl.field.value}
+          setSetConfig={setConfigControl.field.onChange}
+          setExerciseToAdd={setExerciseToAdd}
+          setShowPlanForm={setShowPlanForm}
+          setShowSelectExerciseForm={setShowSelectExerciseForm}
+          exerciseQueryText={exerciseQueryText}
+          setExerciseQueryText={setExerciseQueryText}
+        />
+      )}
 
-        <SectionTitle>Add exercises</SectionTitle>
-
-        <ExerciseContainer>
-          <ExerciseDetail>
-            <ExerciseName>Squat</ExerciseName>
-            <ExerciseSets>1 set</ExerciseSets>
-          </ExerciseDetail>
-          <IconWrapper>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
-            </svg>
-          </IconWrapper>
-        </ExerciseContainer>
-
-        {/* Repeat for other exercises */}
-        <ExerciseContainer>
-          <ExerciseDetail>
-            <ExerciseName>Leg Press</ExerciseName>
-            <ExerciseSets>3 sets</ExerciseSets>
-          </ExerciseDetail>
-          <IconWrapper>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
-            </svg>
-          </IconWrapper>
-        </ExerciseContainer>
-
-        <ExerciseContainer>
-          <ExerciseDetail>
-            <ExerciseName>Lunges</ExerciseName>
-            <ExerciseSets>4 sets, 2 supersets</ExerciseSets>
-          </ExerciseDetail>
-          <IconWrapper>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
-            </svg>
-          </IconWrapper>
-        </ExerciseContainer>
-      </div>
-
-      <div>
-        <div style={{ display: "flex", padding: "12px 16px" }}>
-          <SaveTemplateButton>
-            <span
-              style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              Save template
-            </span>
-          </SaveTemplateButton>
-        </div>
-        <PaddingBlock />
-      </div>
-    </Container>
+      {!isNil(setConfigIndexToEdit) && (
+        <ConfigureSetOfExerciseToAddToPlanForm
+          setConfigControl={setConfigControl}
+          setConfigIndexToEdit={setConfigIndexToEdit}
+          setSetConfigIndexToEdit={setSetConfigIndexToEdit}
+          setConfig={setConfigControl.field.value}
+          setSetConfig={setConfigControl.field.onChange}
+          setExerciseToAdd={setExerciseToAdd}
+          setShowPlanForm={setShowPlanForm}
+          setShowSelectExerciseForm={setShowSelectExerciseForm}
+          exerciseQueryText={exerciseQueryText}
+          setExerciseQueryText={setExerciseQueryText}
+        />
+      )}
+    </div>
   );
 };

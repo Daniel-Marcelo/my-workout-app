@@ -1,4 +1,4 @@
-import { InputOption } from "./General";
+import { InputOption, WithId } from "./General";
 
 export type CreateExerciseForm = {
   name: string;
@@ -41,3 +41,18 @@ export type AddExerciseToWorkoutTemplateForm = {
 
 export type Speed = "slow" | "medium" | "fast" | "view-notes";
 export type Intensity = "light" | "moderate" | "heavy" | "view-notes";
+
+export type SetConfig = {
+  reps: number;
+  restSeconds: number;
+};
+
+export type PlanWorkout = {
+  exercise: WithId<ExerciseTemplate>;
+  setConfig: SetConfig[];
+};
+
+export type WorkoutPlanForm = {
+  name: string;
+  planExercises: PlanWorkout[];
+};

@@ -62,3 +62,8 @@ export const dropsetOptions: InputOption<string, string>[] = [
   { name: "9 sets", code: "9" },
   { name: "10 sets", code: "10" },
 ];
+
+export const defaultSetConfig = () => ({
+  reps: 8,
+  restSeconds: 60,
+});
