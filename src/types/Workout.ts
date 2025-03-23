@@ -43,6 +43,7 @@ export type Speed = "slow" | "medium" | "fast" | "view-notes";
 export type Intensity = "light" | "moderate" | "heavy" | "view-notes";
 
 export type SetConfig = {
+  dropset: boolean;
   reps: number;
   restSeconds: number;
 };
@@ -56,3 +57,5 @@ export type WorkoutPlanForm = {
   name: string;
   planExercises: PlanWorkout[];
 };
+
+export type PlanExerciseSetConfigForm = { setConfig: SetConfig[] };

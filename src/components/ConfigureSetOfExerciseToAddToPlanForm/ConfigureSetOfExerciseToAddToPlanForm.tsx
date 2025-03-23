@@ -1,22 +1,25 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { ExerciseTemplate, SetConfig } from "../../types/Workout";
+import {
+  ExerciseTemplate,
+  PlanExerciseSetConfigForm,
+  SetConfig,
+} from "../../types/Workout";
 import { WithId } from "../../types/General";
 import { PageHeader } from "../PageHeader";
 import { InputNumber } from "primereact/inputnumber";
-import { pt } from "../../const/pt";
 import { UseControllerReturn } from "react-hook-form";
 import { SecondaryText } from "../SecondaryText";
 import { Button } from "primereact/button";
+import {
+  ptConfigureSetOfExerciseToAddToPlanForm,
+  styleConfigureSetOfExerciseToAddToPlanForm,
+} from "./ConfigureSetOfExerciseToAddToPlanForm.styled";
+import { InputSwitch } from "primereact/inputswitch";
 
 type ConfigureSetOfExerciseToAddToPlanFormProps = {
   exerciseQueryText: string;
   setConfigIndexToEdit: number;
-  setConfigControl: UseControllerReturn<
-    {
-      setConfig: SetConfig[];
-    },
-    "setConfig"
-  >;
+  setConfigControl: UseControllerReturn<PlanExerciseSetConfigForm, "setConfig">;
   setSetConfigIndexToEdit: Dispatch<SetStateAction<number | undefined>>;
   setConfig: SetConfig[];
   setSetConfig: Dispatch<SetStateAction<SetConfig[]>>;
@@ -27,12 +30,8 @@ type ConfigureSetOfExerciseToAddToPlanFormProps = {
 };
 
 export const ConfigureSetOfExerciseToAddToPlanForm = ({
-  setExerciseToAdd,
-  setSetConfig,
   setConfig,
   setConfigControl,
-  setShowPlanForm,
-  setShowSelectExerciseForm,
   setSetConfigIndexToEdit,
   setConfigIndexToEdit,
 }: ConfigureSetOfExerciseToAddToPlanFormProps) => {
@@ -42,7 +41,18 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
   const getRepsForSet = (index: number) =>
     setConfigControl.field.value[index]?.reps;
 
-  console.log("setConfigToEdit", setConfigToEdit);
+  const getDropsetForSet = () => {
+    return setConfigToEdit?.dropset;
+  };
+
+  const onChangeDropsetForSet = (newDropset: boolean) => {
+    console.log(newDropset, "newDropset");
+    setSetConfigToEdit({
+      ...setConfigToEdit,
+      dropset: newDropset,
+    });
+  };
+
   const onChangeRepsForSet = (newReps: number) => {
     setSetConfigToEdit({
       ...setConfigToEdit,
@@ -69,20 +79,12 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
       return set;
     });
 
-    console.log("updatedSetsConfig", updatedSetsConfig);
     setConfigControl.field.onChange(updatedSetsConfig);
     setSetConfigIndexToEdit(undefined);
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        flex: 1,
-      }}
-    >
+    <div style={styleConfigureSetOfExerciseToAddToPlanForm.PageContainer}>
       <div>
         <PageHeader
           title={`Set ${setConfigIndexToEdit + 1}`}
@@ -96,20 +98,30 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
             ></i>
           }
         />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginRight: "1rem",
+            gap: "1rem",
+          }}
+        >
+          <SecondaryText bold>Dropset?</SecondaryText>
+          <InputSwitch
+            checked={getDropsetForSet(setConfigIndexToEdit)}
+            onChange={(e) => onChangeDropsetForSet(e.value)}
+          />
+        </div>
 
-        <SecondaryText bold style={{ marginBottom: ".5rem" }}>
+        <SecondaryText
+          bold
+          style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
+        >
           Reps
         </SecondaryText>
         <InputNumber
           size={3}
-          pt={{
-            root: {
-              style: {
-                height: "30px",
-                width: "100%",
-              },
-            },
-          }}
+          pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
           inputId={`reps-${setConfigIndexToEdit}`}
           onFocus={(e) => e.target.select()}
           value={getRepsForSet(setConfigIndexToEdit)}
@@ -119,9 +131,7 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
           maxFractionDigits={0}
           max={10}
           min={1}
-          style={{
-            height: "38px",
-          }}
+          style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
         />
 
         <SecondaryText
@@ -132,14 +142,7 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
         </SecondaryText>
         <InputNumber
           size={3}
-          pt={{
-            root: {
-              style: {
-                height: "30px",
-                width: "100%",
-              },
-            },
-          }}
+          pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
           inputId={`reps-${setConfigIndexToEdit}`}
           onFocus={(e) => e.target.select()}
           value={getRestForSet(setConfigIndexToEdit)}
@@ -149,9 +152,7 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
           maxFractionDigits={0}
           max={1000}
           min={1}
-          style={{
-            height: "38px",
-          }}
+          style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
         />
       </div>
 

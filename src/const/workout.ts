@@ -64,6 +64,7 @@ export const dropsetOptions: InputOption<string, string>[] = [
 ];
 
 export const defaultSetConfig = () => ({
+  dropset: false,
   reps: 8,
   restSeconds: 60,
 });
