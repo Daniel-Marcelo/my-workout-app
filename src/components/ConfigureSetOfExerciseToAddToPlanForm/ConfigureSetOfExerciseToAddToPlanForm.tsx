@@ -239,15 +239,19 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
               </div>
             </div>
           ))}
-        <div style={{ marginTop: "2rem", textAlign: "center", width: "100%" }}>
-          <Button
-            size="small"
-            label="Add Dropset Round"
-            severity="secondary"
-            outlined
-            onClick={onAddDropsetRound}
-          />
-        </div>
+        {setConfigToEdit.dropset && (
+          <div
+            style={{ marginTop: "2rem", textAlign: "center", width: "100%" }}
+          >
+            <Button
+              size="small"
+              label="Add Dropset Round"
+              severity="secondary"
+              outlined
+              onClick={onAddDropsetRound}
+            />
+          </div>
+        )}
       </div>
 
       <Button label="Save Set" onClick={onSaveSetConfig} />

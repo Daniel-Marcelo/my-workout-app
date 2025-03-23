@@ -7,6 +7,7 @@ import { PlanWorkout, WorkoutPlanForm } from "../../types/Workout";
 import { UseControllerReturn, UseFormReturn } from "react-hook-form";
 
 type CreatePlanFormProps = {
+  onClickExercise: (planExerciseConfig: PlanWorkout) => void;
   planForm: UseFormReturn<WorkoutPlanForm>;
   nameControl: UseControllerReturn<WorkoutPlanForm, "name">;
   setShowPlanForm: (showPlanForm: boolean) => void;
@@ -15,6 +16,7 @@ type CreatePlanFormProps = {
   savePlan: () => void;
 };
 export const CreatePlanForm = ({
+  onClickExercise,
   planForm,
   nameControl,
   setShowPlanForm,
@@ -77,7 +79,7 @@ export const CreatePlanForm = ({
         {planExercises?.map((planExerciseConfig) => (
           <div
             key={`${planExerciseConfig.exercise.id}-plan-exercise`}
-            onClick={() => {}}
+            onClick={() => onClickExercise(planExerciseConfig)}
             style={{
               color: "black",
               display: "flex",

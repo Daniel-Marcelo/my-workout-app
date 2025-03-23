@@ -52,6 +52,7 @@ export type SetConfig = {
 export type PlanWorkout = {
   exercise: WithId<ExerciseTemplate>;
   setConfig: SetConfig[];
+  tempId?: string;
 };
 
 export type WorkoutPlanForm = {

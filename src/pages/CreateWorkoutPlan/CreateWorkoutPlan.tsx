@@ -14,6 +14,7 @@ import { ConfigureSetOfExerciseToAddToPlanForm } from "../../components/Configur
 import { isNil } from "lodash";
 import { CreatePlanForm } from "../../components/CreatePlanForm";
 import { useCreateWorkoutPlan } from "../../hooks/mutations/useCreateWorkoutPlan";
+import { v4 as uuidv4 } from "uuid";
 
 export const CreateWorkoutPlan = () => {
   const [showPlanForm, setShowPlanForm] = useState(true);
@@ -40,6 +41,11 @@ export const CreateWorkoutPlan = () => {
   const [exerciseToAdd, setExerciseToAdd] =
     useState<WithId<ExerciseTemplate> | null>(null);
 
+  const [exerciseConfigToUpdate, setExerciseConfigToUpdate] = useState<{
+    tempId: string | undefined;
+    exercise: WithId<ExerciseTemplate> | null;
+  }>();
+
   const planForm = useForm<WorkoutPlanForm>({
     defaultValues: { name: "", planExercises: [] as PlanWorkout[] },
   });
@@ -60,26 +66,52 @@ export const CreateWorkoutPlan = () => {
   });
 
   const onSaveExercise = () => {
-    if (exerciseToAdd) {
-      setShowPlanForm(true);
+    if (exerciseConfigToUpdate) {
+      const updatedPlanExercises = planExercisesControl.field.value.map(
+        (planExercise) => {
+          if (planExercise.tempId === exerciseConfigToUpdate.tempId) {
+            return {
+              exercise: exerciseConfigToUpdate.exercise,
+              setConfig: setConfigControl.field.value,
+              tempId: planExercise.tempId,
+            };
+          }
+          return planExercise;
+        }
+      );
+      planExercisesControl.field.onChange(updatedPlanExercises);
+      setExerciseConfigToUpdate(undefined);
+    } else if (exerciseToAdd) {
       planExercisesControl.field.onChange([
         ...(planExercisesControl.field.value ?? []),
         {
           exercise: exerciseToAdd,
           setConfig: setConfigControl.field.value,
+          tempId: uuidv4(),
         },
       ]);
       setExerciseToAdd(null);
-      setSetConfigIndexToEdit(undefined);
-      setExerciseQueryText("");
-      setConfigForm.reset();
     }
+    setShowPlanForm(true);
+    setSetConfigIndexToEdit(undefined);
+    setExerciseQueryText("");
+    setConfigForm.reset();
   };
 
   const savePlan = planForm.handleSubmit(
     (data) => createWorkoutPlan.mutate({ workoutPlan: data }),
     (err) => console.log(err)
   );
+
+  const onClickExercise = (planExerciseConfig: PlanWorkout) => {
+    setConfigControl.field.onChange(planExerciseConfig.setConfig);
+    setExerciseConfigToUpdate({
+      tempId: planExerciseConfig.tempId,
+      exercise: planExerciseConfig.exercise,
+    });
+    setShowPlanForm(false);
+    setShowSelectExerciseForm(false);
+  };
 
   return (
     <div
@@ -95,6 +127,7 @@ export const CreateWorkoutPlan = () => {
     >
       {showPlanForm && (
         <CreatePlanForm
+          onClickExercise={onClickExercise}
           planForm={planForm}
           savePlan={savePlan}
           nameControl={nameControl}
@@ -113,19 +146,20 @@ export const CreateWorkoutPlan = () => {
         />
       )}
 
-      {exerciseToAdd && isNil(setConfigIndexToEdit) && (
-        <ConfigureExerciseToAddToPlanForm
-          onSaveExercise={onSaveExercise}
-          setSetConfigIndexToEdit={setSetConfigIndexToEdit}
-          setConfig={setConfigControl.field.value}
-          setSetConfig={setConfigControl.field.onChange}
-          setExerciseToAdd={setExerciseToAdd}
-          setShowPlanForm={setShowPlanForm}
-          setShowSelectExerciseForm={setShowSelectExerciseForm}
-          exerciseQueryText={exerciseQueryText}
-          setExerciseQueryText={setExerciseQueryText}
-        />
-      )}
+      {(exerciseToAdd || exerciseConfigToUpdate) &&
+        isNil(setConfigIndexToEdit) && (
+          <ConfigureExerciseToAddToPlanForm
+            onSaveExercise={onSaveExercise}
+            setSetConfigIndexToEdit={setSetConfigIndexToEdit}
+            setConfig={setConfigControl.field.value}
+            setSetConfig={setConfigControl.field.onChange}
+            setExerciseToAdd={setExerciseToAdd}
+            setShowPlanForm={setShowPlanForm}
+            setShowSelectExerciseForm={setShowSelectExerciseForm}
+            exerciseQueryText={exerciseQueryText}
+            setExerciseQueryText={setExerciseQueryText}
+          />
+        )}
 
       {!isNil(setConfigIndexToEdit) && (
         <ConfigureSetOfExerciseToAddToPlanForm
