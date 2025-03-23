@@ -50,7 +50,6 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
       ...setConfigToEdit,
       dropset: newDropset,
       reps: newDropset ? null : 8,
-      restSeconds: newDropset ? null : 60,
       dropsetDetails: defaultDropsetConfig(newDropset),
     };
     setSetConfigToEdit(newSetConfig);
@@ -70,20 +69,6 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
     newDropsetDetails[index] = {
       ...newDropsetDetails[index],
       reps: newReps,
-    };
-    setSetConfigToEdit({
-      ...setConfigToEdit,
-      dropsetDetails: newDropsetDetails,
-    });
-  };
-
-  const onChangeRestForDropsetRound = (newRest: number, index: number) => {
-    const newDropsetDetails = setConfigToEdit.dropsetDetails
-      ? [...setConfigToEdit.dropsetDetails]
-      : [];
-    newDropsetDetails[index] = {
-      ...newDropsetDetails[index],
-      restSeconds: newRest,
     };
     setSetConfigToEdit({
       ...setConfigToEdit,
@@ -141,7 +126,7 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
           />
         </div>
 
-        {!setConfigToEdit.dropset ? (
+        {!setConfigToEdit.dropset && (
           <>
             <SecondaryText
               bold
@@ -163,29 +148,30 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
               min={1}
               style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
             />
-
-            <SecondaryText
-              bold
-              style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
-            >
-              Rest (seconds)
-            </SecondaryText>
-            <InputNumber
-              size={3}
-              pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-              inputId={`reps-${setConfigIndexToEdit}`}
-              onFocus={(e) => e.target.select()}
-              value={getRestForSet(setConfigIndexToEdit)}
-              onChange={(e) => e.value && onChangeRestForSet(e.value)}
-              buttonLayout="horizontal"
-              step={1}
-              maxFractionDigits={0}
-              max={1000}
-              min={1}
-              style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-            />
           </>
-        ) : (
+        )}
+        <SecondaryText
+          bold
+          style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
+        >
+          Rest (seconds)
+        </SecondaryText>
+        <InputNumber
+          size={3}
+          pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+          inputId={`reps-${setConfigIndexToEdit}`}
+          onFocus={(e) => e.target.select()}
+          value={getRestForSet(setConfigIndexToEdit)}
+          onChange={(e) => e.value && onChangeRestForSet(e.value)}
+          buttonLayout="horizontal"
+          step={1}
+          maxFractionDigits={0}
+          max={1000}
+          min={1}
+          style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+        />
+
+        {setConfigToEdit.dropset && (
           <>
             {setConfigToEdit.dropsetDetails?.map((dropsetConfig, index) => (
               <div style={{ marginTop: "2rem" }}>
@@ -213,31 +199,6 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
                     step={1}
                     maxFractionDigits={0}
                     max={10}
-                    min={1}
-                    style={
-                      styleConfigureSetOfExerciseToAddToPlanForm.InputNumber
-                    }
-                  />
-
-                  <SecondaryText
-                    bold
-                    style={{ marginBottom: ".5rem", marginTop: "1.5rem" }}
-                  >
-                    Rest (seconds)
-                  </SecondaryText>
-                  <InputNumber
-                    size={3}
-                    pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-                    inputId={`reps-${setConfigIndexToEdit}`}
-                    onFocus={(e) => e.target.select()}
-                    value={dropsetConfig.restSeconds}
-                    onChange={(e) =>
-                      e.value && onChangeRestForDropsetRound(e.value, index)
-                    }
-                    buttonLayout="horizontal"
-                    step={1}
-                    maxFractionDigits={0}
-                    max={1000}
                     min={1}
                     style={
                       styleConfigureSetOfExerciseToAddToPlanForm.InputNumber

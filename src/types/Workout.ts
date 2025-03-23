@@ -45,8 +45,8 @@ export type Intensity = "light" | "moderate" | "heavy" | "view-notes";
 export type SetConfig = {
   dropset: boolean;
   reps: number | null;
-  restSeconds: number | null;
-  dropsetDetails: { reps: number; restSeconds: number }[];
+  restSeconds: number;
+  dropsetDetails: { reps: number }[];
 };
 
 export type PlanWorkout = {
