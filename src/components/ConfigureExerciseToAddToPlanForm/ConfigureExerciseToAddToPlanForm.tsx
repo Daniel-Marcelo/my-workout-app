@@ -6,6 +6,7 @@ import { SecondaryText } from "../SecondaryText";
 import { PrimaryText } from "../PrimaryText";
 import { Button } from "primereact/button";
 import { defaultSingleSetConfig } from "../../const/workout";
+import { Tag } from "primereact/tag";
 
 type ConfigureExerciseToAddToPlanFormProps = {
   exerciseQueryText: string;
@@ -30,6 +31,13 @@ export const ConfigureExerciseToAddToPlanForm = ({
 }: ConfigureExerciseToAddToPlanFormProps) => {
   const deleteSetConfig = (index: number) => {
     setSetConfig((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const getSetDetails = (set: SetConfig) => {
+    if (set.dropset) {
+      return `${set.dropsetDetails.length} rounds, ${set.restSeconds} sec rest`;
+    }
+    return `${set.reps} reps, ${set.restSeconds} sec rest`;
   };
 
   return (
@@ -79,10 +87,21 @@ export const ConfigureExerciseToAddToPlanForm = ({
                 flexDirection: "column",
               }}
             >
-              <PrimaryText>Set {index + 1}</PrimaryText>
-              <SecondaryText>
-                {set.reps} reps, {set.restSeconds} sec rest
-              </SecondaryText>
+              <PrimaryText>
+                <span>Set {index + 1}</span>
+                {set.dropset && (
+                  <Tag
+                    value="Dropset"
+                    style={{
+                      marginLeft: "1rem",
+                      padding: ".25rem",
+                      paddingTop: ".1rem",
+                      paddingBottom: ".1rem",
+                    }}
+                  ></Tag>
+                )}
+              </PrimaryText>
+              <SecondaryText>{getSetDetails(set)}</SecondaryText>
             </div>
             <div>
               <i
