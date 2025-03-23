@@ -1,5 +1,4 @@
 import { InputText } from "primereact/inputtext";
-import { PageHeader } from "../PageHeader";
 import { WithId } from "../../types/General";
 import { ExerciseTemplate } from "../../types/Workout";
 import { PrimaryText } from "../PrimaryText";
@@ -10,6 +9,7 @@ import {
   styleAddExerciseToPlanForm,
 } from "./AddExerciseToPlanForm.styled";
 import { useFilteredExercises } from "./useFilteredExercises";
+import { AppBar } from "../AppBar";
 
 type AddExerciseToPlanFormProps = {
   exerciseQueryText: string;
@@ -30,19 +30,14 @@ export const AddExerciseToPlanForm = ({
 
   return (
     <>
-      <PageHeader
+      <AppBar
         title="Select Exercise to Add"
-        leftContent={
-          <i
-            className="pi pi-angle-left"
-            style={{ color: "black", cursor: "pointer" }}
-            onClick={() => {
-              setShowPlanForm(true);
-              setShowSelectExerciseForm(false);
-              setExerciseToAdd(null);
-            }}
-          ></i>
-        }
+        leftIcon="pi-angle-left"
+        onClickLeftIcon={() => {
+          setShowPlanForm(true);
+          setShowSelectExerciseForm(false);
+          setExerciseToAdd(null);
+        }}
       />
       <div style={{ position: "relative", marginBottom: "2rem" }}>
         <AddExerciseToPlanFormSearchIcon />
