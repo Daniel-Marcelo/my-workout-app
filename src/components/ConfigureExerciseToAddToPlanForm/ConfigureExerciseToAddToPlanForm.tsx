@@ -5,7 +5,7 @@ import { ExerciseTemplate, SetConfig } from "../../types/Workout";
 import { SecondaryText } from "../SecondaryText";
 import { PrimaryText } from "../PrimaryText";
 import { Button } from "primereact/button";
-import { defaultSetConfig } from "../../const/workout";
+import { defaultSingleSetConfig } from "../../const/workout";
 
 type ConfigureExerciseToAddToPlanFormProps = {
   exerciseQueryText: string;
@@ -105,7 +105,7 @@ export const ConfigureExerciseToAddToPlanForm = ({
             severity="secondary"
             outlined
             onClick={() =>
-              setSetConfig((prev) => [...prev, defaultSetConfig()])
+              setSetConfig((prev) => [...prev, defaultSingleSetConfig()])
             }
           />
         </div>

@@ -63,16 +63,16 @@ export const dropsetOptions: InputOption<string, string>[] = [
   { name: "10 sets", code: "10" },
 ];
 
-export const defaultSetConfig = (): SetConfig => ({
+export const defaultSingleSetConfig = (): SetConfig => ({
   dropset: false,
   reps: 8,
   restSeconds: 60,
-  dropsetDetails: undefined,
+  dropsetDetails: [],
 });
 
 export const defaultDropsetConfig = (
   dropset: boolean
-): { reps: number; restSeconds: number }[] | undefined => {
+): { reps: number; restSeconds: number }[] | [] => {
   if (dropset) {
     return [
       { reps: 8, restSeconds: 60 },
@@ -80,5 +80,5 @@ export const defaultDropsetConfig = (
       { reps: 8, restSeconds: 60 },
     ];
   }
-  return undefined;
+  return [];
 };

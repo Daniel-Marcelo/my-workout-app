@@ -49,6 +49,8 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
     const newSetConfig: SetConfig = {
       ...setConfigToEdit,
       dropset: newDropset,
+      reps: newDropset ? null : 8,
+      restSeconds: newDropset ? null : 60,
       dropsetDetails: defaultDropsetConfig(newDropset),
     };
     setSetConfigToEdit(newSetConfig);

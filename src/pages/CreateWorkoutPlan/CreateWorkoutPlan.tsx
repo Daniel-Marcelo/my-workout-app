@@ -9,7 +9,7 @@ import {
 } from "../../types/Workout";
 import { WithId } from "../../types/General";
 import { ConfigureExerciseToAddToPlanForm } from "../../components/ConfigureExerciseToAddToPlanForm";
-import { defaultSetConfig } from "../../const/workout";
+import { defaultSingleSetConfig } from "../../const/workout";
 import { ConfigureSetOfExerciseToAddToPlanForm } from "../../components/ConfigureSetOfExerciseToAddToPlanForm";
 import { isNil } from "lodash";
 import { CreatePlanForm } from "../../components/CreatePlanForm";
@@ -23,7 +23,11 @@ export const CreateWorkoutPlan = () => {
 
   const setConfigForm = useForm<PlanExerciseSetConfigForm>({
     defaultValues: {
-      setConfig: [defaultSetConfig(), defaultSetConfig(), defaultSetConfig()],
+      setConfig: [
+        defaultSingleSetConfig(),
+        defaultSingleSetConfig(),
+        defaultSingleSetConfig(),
+      ],
     },
   });
 
