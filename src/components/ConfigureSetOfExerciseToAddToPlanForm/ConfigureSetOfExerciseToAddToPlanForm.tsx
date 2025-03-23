@@ -96,6 +96,28 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
     setSetConfigIndexToEdit(undefined);
   };
 
+  const onClickDeleteDropsetRound = (index: number) => {
+    const newDropsetDetails = setConfigToEdit.dropsetDetails
+      ? [...setConfigToEdit.dropsetDetails]
+      : [];
+    newDropsetDetails.splice(index, 1);
+    setSetConfigToEdit({
+      ...setConfigToEdit,
+      dropsetDetails: newDropsetDetails,
+    });
+  };
+
+  const onAddDropsetRound = () => {
+    const newDropsetDetails = setConfigToEdit.dropsetDetails
+      ? [...setConfigToEdit.dropsetDetails]
+      : [];
+    newDropsetDetails.push({ reps: 8 });
+    setSetConfigToEdit({
+      ...setConfigToEdit,
+      dropsetDetails: newDropsetDetails,
+    });
+  };
+
   return (
     <div style={styleConfigureSetOfExerciseToAddToPlanForm.PageContainer}>
       <div>
@@ -171,44 +193,61 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
           style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
         />
 
-        {setConfigToEdit.dropset && (
-          <>
-            {setConfigToEdit.dropsetDetails?.map((dropsetConfig, index) => (
-              <div style={{ marginTop: "2rem" }}>
-                <PrimaryText>Round {index + 1}</PrimaryText>
-                <div
-                  style={{
-                    paddingLeft: "1rem",
-                    paddingRight: "1rem",
-                    marginTop: "1rem",
-                  }}
-                >
-                  <SecondaryText bold style={{ marginBottom: ".5rem" }}>
-                    Reps
-                  </SecondaryText>
-                  <InputNumber
-                    size={3}
-                    pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
-                    inputId={`reps-${setConfigIndexToEdit}`}
-                    onFocus={(e) => e.target.select()}
-                    value={dropsetConfig.reps}
-                    onChange={(e) =>
-                      e.value && onChangeRepsForDropsetRound(e.value, index)
-                    }
-                    buttonLayout="horizontal"
-                    step={1}
-                    maxFractionDigits={0}
-                    max={10}
-                    min={1}
-                    style={
-                      styleConfigureSetOfExerciseToAddToPlanForm.InputNumber
-                    }
-                  />
-                </div>
+        {setConfigToEdit.dropset &&
+          setConfigToEdit.dropsetDetails?.map((dropsetConfig, index) => (
+            <div style={{ marginTop: "2rem" }}>
+              <PrimaryText>
+                <span>Round {index + 1}</span>
+                <span>
+                  <i
+                    className="pi pi-trash"
+                    style={{
+                      color: "red",
+                      marginLeft: "1rem",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => onClickDeleteDropsetRound(index)}
+                  ></i>
+                </span>
+              </PrimaryText>
+              <div
+                style={{
+                  paddingLeft: "1rem",
+                  paddingRight: "1rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <SecondaryText bold style={{ marginBottom: ".5rem" }}>
+                  Reps
+                </SecondaryText>
+                <InputNumber
+                  size={3}
+                  pt={ptConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+                  inputId={`reps-${setConfigIndexToEdit}`}
+                  onFocus={(e) => e.target.select()}
+                  value={dropsetConfig.reps}
+                  onChange={(e) =>
+                    e.value && onChangeRepsForDropsetRound(e.value, index)
+                  }
+                  buttonLayout="horizontal"
+                  step={1}
+                  maxFractionDigits={0}
+                  max={10}
+                  min={1}
+                  style={styleConfigureSetOfExerciseToAddToPlanForm.InputNumber}
+                />
               </div>
-            ))}
-          </>
-        )}
+            </div>
+          ))}
+        <div style={{ marginTop: "2rem", textAlign: "center", width: "100%" }}>
+          <Button
+            size="small"
+            label="Add Dropset Round"
+            severity="secondary"
+            outlined
+            onClick={onAddDropsetRound}
+          />
+        </div>
       </div>
 
       <Button label="Save Set" onClick={onSaveSetConfig} />
