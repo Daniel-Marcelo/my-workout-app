@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { SecondaryText } from "../SecondaryText";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export const AppBar = ({
 }: {
   title: string;
   leftIcon?: string;
-  onClickLeftIcon: () => void;
+  onClickLeftIcon?: () => void;
 }) => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();

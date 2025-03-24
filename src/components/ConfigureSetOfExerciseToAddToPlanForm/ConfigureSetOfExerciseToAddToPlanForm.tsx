@@ -5,7 +5,6 @@ import {
   SetConfig,
 } from "../../types/Workout";
 import { WithId } from "../../types/General";
-import { PageHeader } from "../PageHeader";
 import { InputNumber } from "primereact/inputnumber";
 import { UseControllerReturn } from "react-hook-form";
 import { SecondaryText } from "../SecondaryText";
@@ -17,6 +16,7 @@ import {
 import { InputSwitch } from "primereact/inputswitch";
 import { PrimaryText } from "../PrimaryText";
 import { defaultDropsetConfig } from "../../const/workout";
+import { AppBar } from "../AppBar";
 
 type ConfigureSetOfExerciseToAddToPlanFormProps = {
   exerciseQueryText: string;
@@ -121,18 +121,14 @@ export const ConfigureSetOfExerciseToAddToPlanForm = ({
   return (
     <div style={styleConfigureSetOfExerciseToAddToPlanForm.PageContainer}>
       <div>
-        <PageHeader
+        <AppBar
           title={`Set ${setConfigIndexToEdit + 1}`}
-          leftContent={
-            <i
-              className="pi pi-angle-left"
-              style={{ color: "black", cursor: "pointer" }}
-              onClick={() => {
-                setSetConfigIndexToEdit(undefined);
-              }}
-            ></i>
-          }
+          leftIcon="pi-angle-left"
+          onClickLeftIcon={() => {
+            setSetConfigIndexToEdit(undefined);
+          }}
         />
+
         <div
           style={{
             display: "flex",

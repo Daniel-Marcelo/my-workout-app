@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import { PageHeader } from "../PageHeader";
 import { WithId } from "../../types/General";
 import { ExerciseTemplate, SetConfig } from "../../types/Workout";
 import { SecondaryText } from "../SecondaryText";
@@ -7,6 +6,7 @@ import { PrimaryText } from "../PrimaryText";
 import { Button } from "primereact/button";
 import { defaultSingleSetConfig } from "../../const/workout";
 import { Tag } from "primereact/tag";
+import { AppBar } from "../AppBar";
 
 type ConfigureExerciseToAddToPlanFormProps = {
   exerciseQueryText: string;
@@ -50,19 +50,14 @@ export const ConfigureExerciseToAddToPlanForm = ({
       }}
     >
       <div>
-        <PageHeader
+        <AppBar
           title="Exercise Details"
-          leftContent={
-            <i
-              className="pi pi-angle-left"
-              style={{ color: "black", cursor: "pointer" }}
-              onClick={() => {
-                setShowPlanForm(true);
-                setShowSelectExerciseForm(false);
-                setExerciseToAdd(null);
-              }}
-            ></i>
-          }
+          leftIcon="pi-angle-left"
+          onClickLeftIcon={() => {
+            setShowPlanForm(false);
+            setShowSelectExerciseForm(true);
+            setExerciseToAdd(null);
+          }}
         />
 
         {setConfig.map((set, index) => (
