@@ -31,6 +31,16 @@ export const AppBar = ({
       >
         <div style={{ display: "flex", flex: 1 }}>
           <Sidebar visible={visible} onHide={() => setVisible(false)}>
+            <div onClick={() => navigate("/dashboard")}>
+              <SecondaryText
+                style={{
+                  cursor: "pointer",
+                  marginBottom: "1rem",
+                }}
+              >
+                Dashboard
+              </SecondaryText>
+            </div>
             <div onClick={() => navigate("/workout/plan")}>
               <SecondaryText
                 style={{
@@ -66,6 +76,7 @@ export const AppBar = ({
               textAlign: "center",
               paddingTop: ".75rem",
               paddingBottom: ".75rem",
+              marginLeft: "-84px",
             }}
           >
             {title}
