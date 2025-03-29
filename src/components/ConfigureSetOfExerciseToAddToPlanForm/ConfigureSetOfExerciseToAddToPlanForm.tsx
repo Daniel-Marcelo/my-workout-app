@@ -1,10 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import {
-  ExerciseTemplate,
-  PlanExerciseSetConfigForm,
-  SetConfig,
-} from "../../types/Workout";
-import { WithId } from "../../types/General";
+import { PlanExerciseSetConfigForm, SetConfig } from "../../types/Workout";
 import { InputNumber } from "primereact/inputnumber";
 import { UseControllerReturn } from "react-hook-form";
 import { SecondaryText } from "../SecondaryText";
@@ -19,16 +14,10 @@ import { defaultDropsetConfig } from "../../const/workout";
 import { AppBar } from "../AppBar";
 
 type ConfigureSetOfExerciseToAddToPlanFormProps = {
-  exerciseQueryText: string;
   setConfigIndexToEdit: number;
   setConfigControl: UseControllerReturn<PlanExerciseSetConfigForm, "setConfig">;
   setSetConfigIndexToEdit: Dispatch<SetStateAction<number | undefined>>;
   setConfig: SetConfig[];
-  setSetConfig: Dispatch<SetStateAction<SetConfig[]>>;
-  setExerciseToAdd: (exerciseToAdd: WithId<ExerciseTemplate> | null) => void;
-  setExerciseQueryText: (exerciseQueryText: string) => void;
-  setShowPlanForm: (showPlanForm: boolean) => void;
-  setShowSelectExerciseForm: (showSelectExerciseForm: boolean) => void;
 };
 
 export const ConfigureSetOfExerciseToAddToPlanForm = ({

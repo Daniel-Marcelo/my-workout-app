@@ -9,12 +9,10 @@ import { Tag } from "primereact/tag";
 import { AppBar } from "../AppBar";
 
 type ConfigureExerciseToAddToPlanFormProps = {
-  exerciseQueryText: string;
   setSetConfigIndexToEdit: Dispatch<SetStateAction<number | undefined>>;
   setConfig: SetConfig[];
   setSetConfig: Dispatch<SetStateAction<SetConfig[]>>;
   setExerciseToAdd: (exerciseToAdd: WithId<ExerciseTemplate> | null) => void;
-  setExerciseQueryText: (exerciseQueryText: string) => void;
   setShowPlanForm: (showPlanForm: boolean) => void;
   setShowSelectExerciseForm: (showSelectExerciseForm: boolean) => void;
   onSaveExercise: () => void;
